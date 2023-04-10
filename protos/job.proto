@@ -16,25 +16,53 @@ package scheduler.adapter;
 
 import "google/protobuf/timestamp.proto";
 
+enum JobState {
+  PENDING = 0;
+  RUNNING = 1;
+  SUSPENDED = 2;
+  COMPLETED = 3;
+  CANCELLED = 4;
+}
 message RunningJob {
   string job_id = 1;
   string partition = 2;
   string name = 3;
   string user = 4;
-  string state = 5;
+  JobState state = 5;
+
+  // format in "days-hours:minutes:seconds"
   string running_time = 6;
-  string nodes = 7;
+
+  /*
+   Number of nodes allocated to the job
+   or the minimum number of nodes required by a pending job
+   */
+  uint32 nodes = 7;
+
+  /*
+   For pending jobs: the reason a job is waiting for execution. 
+   For terminated jobs with failure: an explanation as to why the job failed. 
+   For all other job states: the list of allocate nodes.
+   */
   string nodes_or_reason = 8;
+
   string account = 9;
-  string cores = 10;
+  
+  /* 
+   Number of CPUs (processors) requested by the job 
+   or allocated to it if already running.
+  */ 
+  uint32 cores = 10;
+
   string qos = 11;
-  string submission_time = 12;
+  google.protobuf.Timestamp submission_time = 12;
+
+  // For pending jobs, a list of the nodes expected to be used when the job is started
   string nodes_to_be_used = 13;
 
-  /**
-  days-hours:minutes:seconds.
-  The value may be  "NOT_SET"  if not yet established or "UNLIMITED" for no
-  limit.  (Valid for jobs and job steps)
+  /*
+   format in days-hours:minutes:seconds.
+   The value may be "UNLIMITED" for no limit.
    */
   string time_limit = 14;
 
@@ -132,7 +160,26 @@ message ListAllJobsInfoResponse {
 }
 
 service JobService {
+  /*
+   * description: get running jobs info
+   * special case:
+   * - not specify user, return all users' jobs
+   * - not specify account, return all jobs(regardless of account)
+   * - not specify job id, return all jobs
+   * - one of accounts not exist, don't throw
+   * - one of jobid not exist, don't throw
+   * errors: 
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {}
+   */
   rpc GetRunningJobs(GetRunningJobsRequest) returns (GetRunningJobsResponse);
+
+  /*
+   * description: change a job's time limit 
+   * errors: 
+   * - job not found
+   *   NOT_FOUND, JOB_NOT_FOUND, {}
+   */
   rpc ChangeJobTimeLimit(ChangeJobTimeLimitRequest) returns (ChangeJobTimeLimitResponse);
   rpc QueryJobTimeLimit(QueryJobTimeLimitRequest) returns (QueryJobTimeLimitResponse);
   rpc SubmitJob(SubmitJobRequest) returns (SubmitJobResponse);
