@@ -75,15 +75,61 @@ message GetAllAccountsWithUsersResponse {
 }
 service AccountService {
 
+  
+  /**
+   * description: list accounts for a user
+   * errors: 
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {}
+   */
   rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse);
 
+  /*
+   * description: create account and specify owner
+   * errors:
+   * - account exist
+   *   ALREADY_EXISTS, ACCOUNT_ALREADY_EXISTS, {}
+   * - owner id not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {} ? slurm.sh中默认会添加不存在的用户,scow中会提前检查是否存在
+   */
   rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
 
+  /*
+   * description: delete account and useraccount association
+   * errors: 
+   * - account not exist
+   *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   * - account is running some jobs
+   *   UNKNOWN, ACCOUNT_JOB_RUNNING, {}
+   * - ? 用户只有一个账户时, slurm不允许删除, slurm.sh的做法是删除这个用户(考虑addusertoacct的约定)
+   * - ? slurm.sh在账户为默认账户时也无法删除, 因为是直接和具体调度器相关的, 或许应该直接抛出错误
+   */
   rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse);
 
+  /*
+   * description: block an account 
+   * errors: 
+   * - account not exist
+   *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   * special case:
+   * - account already blocked, don't throw error
+   */
   rpc BlockAccount(BlockAccountRequest) returns (BlockAccountResponse);
 
+  /*
+   * description: unblock an account 
+   * errors: 
+   * - account not exist
+   *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   * special case:
+   * - account already unblocked, don't throw error
+   */
   rpc UnblockAccount(UnblockAccountRequest) returns (UnblockAccountResponse);
 
+  /*
+   * description: get all accounts and all associated users
+   * special case:
+   * - account without users, exclude this account
+   */
   rpc GetAllAccountsWithUsers(GetAllAccountsWithUsersRequest) returns (GetAllAccountsWithUsersResponse);
 }

@@ -22,11 +22,11 @@ message ChangeStorageQuotaRequest {
     SET = 2;
   }
   Mode mode = 2;
-  uint64 value = 3;
+  uint64 quota_terabytes = 3;
 }
 
 message ChangeStorageQuotaResponse {
-  uint64 current_quota = 1;
+  uint64 current_quota_terabytes = 1;
 }
 
 message QueryUsedStorageQuotaRequest {
@@ -34,10 +34,25 @@ message QueryUsedStorageQuotaRequest {
 }
 
 message QueryUsedStorageQuotaResponse {
-  uint64 used = 1;
+  uint64 used_quota_bytes = 1;
 }
 
 service StorageService {
+  /*
+   * description: change storage quota(TB) of a user
+   * errors: 
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {}
+   * - quota value is invalid(should be integer)
+   *   INVALID_ARGUMENT, QUOTA_VALUE_INVALID, {}
+   */
   rpc ChangeStorageQuota(ChangeStorageQuotaRequest) returns (ChangeStorageQuotaResponse);
+
+  /*
+   * description: query how many quota a user has used(bytes)
+   * errors: 
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {}
+   */
   rpc QueryUsedStorageQuota(QueryUsedStorageQuotaRequest) returns (QueryUsedStorageQuotaResponse);
 }

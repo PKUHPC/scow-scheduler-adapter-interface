@@ -22,12 +22,12 @@ message AddUserToAccountRequest {
 message AddUserToAccountResponse {
 }
 
-message RemoveUserRequest {
+message RemoveUserFromAccountRequest {
   string user_id = 1;
   string account_name = 2;
 }
 
-message RemoveUserResponse {
+message RemoveUserFromAccountResponse {
 }
 
 message BlockUserInAccountRequest {
@@ -48,12 +48,56 @@ message UnblockUserInAccountResponse {
 
 
 service UserService {
+  /*
+   * description: add user to account
+   * errors: 
+   * - account not exist
+   *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   * - user already exists in account
+   *   ALREADY_EXISTS, USER_ACCOUNT_ALREADY_EXISTS, {}
+   * special case:
+   * - user not exist, create user and add it to account
+   */
   rpc AddUserToAccount(AddUserToAccountRequest) returns (AddUserToAccountResponse);
 
-  rpc RemoveUser(RemoveUserRequest) returns (RemoveUserResponse);
+  /*
+   * description: remove user from account
+   * errors: 
+   * - account not exist
+   *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {} ? slurm.sh并没有特殊识别这种情况
+   * - user not exist in account
+   *   NOT_FOUND, USER_ACCOUNT_NOT_FOUND, {}
+   */
+  rpc RemoveUserFromAccount(RemoveUserFromAccountRequest) returns (RemoveUserFromAccountResponse);
 
+  /*
+   * description: block user in account
+   * errors: 
+   * - account not exist
+   *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {}
+   * - user not exist in account
+   *   NOT_FOUND, USER_ACCOUNT_NOT_FOUND, {} 
+   * special case:
+   * - already blocked, don't throw error
+   */
   rpc BlockUserInAccount(BlockUserInAccountRequest) returns (BlockUserInAccountResponse);
 
+  /*
+   * description: unblock user in account
+   * errors: 
+   * - account not exist
+   *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {}
+   * - user not exist in account
+   *   NOT_FOUND, USER_ACCOUNT_NOT_FOUND, {} 
+   * special case:
+   * - already unblocked, don't throw error
+   */
   rpc UnblockUserInAccount(UnblockUserInAccountRequest) returns (UnblockUserInAccountResponse);
 
 }

@@ -15,6 +15,7 @@ syntax = "proto3";
 package scheduler.adapter;
 
 import "google/protobuf/timestamp.proto";
+import "job.proto";
 
 message CreateAppRequest {
   string app_id = 1;
@@ -23,9 +24,8 @@ message CreateAppRequest {
   optional string partition = 4;
   optional string qos = 5;
   uint32 core_count = 6;
-  uint32 max_time = 7;
+  uint32 max_time_minutes = 7;
   map<string, string> custom_attributes = 8;
-  repeated string user_sbatch_options = 9;
 }
 
 message CreateAppResponse {
@@ -42,10 +42,17 @@ message AppSession {
   uint32 job_id = 2;
   google.protobuf.Timestamp submit_time = 3;
   string app_id = 4;
-  string state = 5;
+  JobState state = 5;
   bool ready = 6;
   string data_path = 7;
+  
+  // format in "days-hours:minutes:seconds"
   string running_time = 8;
+
+  /*
+    format in days-hours:minutes:seconds.
+    The value may be "UNLIMITED" for no limit.
+   */
   string time_limit = 9;
 }
 
@@ -54,7 +61,25 @@ message ListAppSessionsResponse {
 }
 
 
+// ? 创建交互式应用的个性化配置带有只适用于slurm的sbatch配置信息
 service AppService {
+   /*
+    * description: create app(submit an app job)
+    * errors: 
+    * - app not exist
+    *   NOT_FOUND, APP_NOT_FOUND, {}
+    * - sbatch failed
+    *   UNKNOWN, SBATCH_FAILED, {
+    *     reason: string
+    *   }
+    * - ? sftp, ssh 是否应该定义这类错误
+    */
    rpc CreateApp(CreateAppRequest) returns (CreateAppResponse);
+   /*
+    * description: list all app sessions
+    * errors: 
+    * - user not exist
+    *   NOT_FOUND, USER_NOT_FOUND, {}
+    */
    rpc ListAppSessions(ListAppSessionsRequest) returns (ListAppSessionsResponse);
 }

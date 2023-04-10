@@ -21,7 +21,7 @@ message GetClusterConfigRequest {
 message Partition {
   string name = 1;
   // mem: memory size in M
-  int64 mem = 2;
+  int64 mem_megabytes = 2;
   // cores: number of cores
   int32 cores = 3;
   // gpus: number of gpu
