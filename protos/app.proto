@@ -15,7 +15,7 @@ syntax = "proto3";
 package scheduler.adapter;
 
 import "google/protobuf/timestamp.proto";
-import "job.proto";
+import "protos/job.proto";
 
 message CreateAppRequest {
   string app_id = 1;
@@ -46,11 +46,11 @@ message AppSession {
   bool ready = 6;
   string data_path = 7;
   
-  // format in "days-hours:minutes:seconds"
+  // format in "[days-[hours:]]minutes:seconds"
   string running_time = 8;
 
   /*
-    format in days-hours:minutes:seconds.
+    format in [days-[hours:]]minutes:seconds.
     The value may be "UNLIMITED" for no limit.
    */
   string time_limit = 9;

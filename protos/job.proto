@@ -30,7 +30,7 @@ message RunningJob {
   string user = 4;
   JobState state = 5;
 
-  // format in "days-hours:minutes:seconds"
+  // format in "[days-[hours:]]minutes:seconds"
   string running_time = 6;
 
   /*
@@ -61,7 +61,7 @@ message RunningJob {
   string nodes_to_be_used = 13;
 
   /*
-   format in days-hours:minutes:seconds.
+   format in [days-[hours:]]minutes:seconds.
    The value may be "UNLIMITED" for no limit.
    */
   string time_limit = 14;
@@ -76,7 +76,8 @@ message JobTemplate {
   optional string qos = 4;
   uint32 node_count = 5;
   uint32 core_count = 6;
-  uint32 max_time = 7; // in minutes
+  uint32 max_time_minutes = 7;
+  // raw job script string
   string command = 8;
   string working_directory = 9;
   optional string comment = 10;
@@ -88,12 +89,18 @@ message JobInfo {
   string account = 3;
   string partition = 4;
   string qos = 5;
-  string state = 6;
+  JobState state = 6;
   string working_directory = 7;
+
+  // The last reason a job was blocked from running
   string reason = 8;
+
+  // format in "[days-[hours:]]minutes:seconds"
   string elapsed = 9;
+  // format in "[days-[hours:]]minutes:seconds"
   string time_limit = 10;
-  string submit_time = 11;
+
+  google.protobuf.Timestamp submit_time = 11;
 }
 
 message GetRunningJobsRequest {
@@ -108,7 +115,8 @@ message GetRunningJobsResponse {
 
 message ChangeJobTimeLimitRequest {
   string job_id = 1;
-  int64 delta = 2;
+  // increase or decrease time limit
+  int64 delta_minutes = 2;
 }
 
 message ChangeJobTimeLimitResponse {
@@ -119,7 +127,7 @@ message QueryJobTimeLimitRequest {
 }
 
 message QueryJobTimeLimitResponse {
-  uint64 limit = 1;
+  uint64 time_limit_seconds = 1;
 }
 
 message SubmitJobRequest {
@@ -150,7 +158,7 @@ message CancelJobResponse {
 }
 
 message ListAllJobsInfoRequest{
-  string user_id = 1;
+  optional string user_id = 1;
   google.protobuf.Timestamp start_time =2;
   google.protobuf.Timestamp end_time =3;
 }
@@ -181,9 +189,50 @@ service JobService {
    *   NOT_FOUND, JOB_NOT_FOUND, {}
    */
   rpc ChangeJobTimeLimit(ChangeJobTimeLimitRequest) returns (ChangeJobTimeLimitResponse);
+
+  /*
+   * description: query time limit
+   * errors: 
+   * - job not found
+   *   NOT_FOUND, JOB_NOT_FOUND, {}
+   */
   rpc QueryJobTimeLimit(QueryJobTimeLimitRequest) returns (QueryJobTimeLimitResponse);
+
+  /*
+   * description: submit job 
+   * errors: 
+   * - sbatch failed
+   *   UNKNOWN, SBATCH_FAILED, {
+   *     reason: string
+   *   }
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {}
+   */
   rpc SubmitJob(SubmitJobRequest) returns (SubmitJobResponse);
+
+  /* ? 这个接口可能没有存在的必要
+   * description: generate job script(append extra options for scheduler), can be used for submitting job  
+   */
   rpc GenerateJobScript(GenerateJobScriptRequest) returns (GenerateJobScriptResponse);
+
+  /*
+   * description: cancel a job
+   * errors: 
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {}
+   * - job not found
+   *   NOT_FOUND, JOB_NOT_FOUND, {}
+   */
   rpc CancelJob(CancelJobRequest) returns (CancelJobResponse);
+
+  /* ? 这个接口还需要修改, 需要能够指定结束时间范围, 查询已结束作业
+   * description: list all jobs 
+   * errors: 
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {}
+   * special case:
+   * - not specify user, return all jobs
+   */
   rpc ListAllJobsInfo(ListAllJobsInfoRequest) returns (ListAllJobsInfoResponse);
+
 }
