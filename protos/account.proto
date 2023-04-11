@@ -27,7 +27,6 @@ message CreateAccountRequest {
   string owner_id = 2;
 }
 
-// if account exists, throw grpc error. code: "ALREADY_EXISTS"
 message CreateAccountResponse {
 }
 

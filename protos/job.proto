@@ -91,16 +91,40 @@ message JobInfo {
   string qos = 5;
   JobState state = 6;
   string working_directory = 7;
+  // the number of CPUs requested by job
+  int32 cpus_req = 8;
+  // memory requested by job
+  int64 mem_req_megabytes = 9;
+  // the number of nodes requested by job
+  int32 nodes_req = 10;
+  int64 time_limit_seconds = 11;
+  google.protobuf.Timestamp submit_time = 12;
 
-  // The last reason a job was blocked from running
-  string reason = 8;
+  message RunningInfo {
+    google.protobuf.Timestamp start_time = 1;
+    int64 elapsed_seconds = 2;
+    // The last reason a job was blocked from running
+    string reason = 3;
+    string node_list = 4;
+    // the number of GPUs used by job
+    int32 gpus_alloc = 5;
+    // the number of CPUs used by job
+    int32 cpus_alloc = 6;
+    // memory used by job
+    int64 mem_alloc_megabytes = 7;
+    // the number of nodes used by job
+    int32 nodes_alloc = 8;
+  }
 
-  // format in "[days-[hours:]]minutes:seconds"
-  string elapsed = 9;
-  // format in "[days-[hours:]]minutes:seconds"
-  string time_limit = 10;
+  message CompletedInfo {
+    google.protobuf.Timestamp end_time = 1;
+  }
 
-  google.protobuf.Timestamp submit_time = 11;
+  // after starting to run, a job should include such info
+  optional RunningInfo running_info = 13;
+  // after completed, a job should include such info
+  optional CompletedInfo completed_info = 14;
+
 }
 
 message GetRunningJobsRequest {
@@ -161,6 +185,16 @@ message ListAllJobsInfoRequest{
   optional string user_id = 1;
   google.protobuf.Timestamp start_time =2;
   google.protobuf.Timestamp end_time =3;
+  /** 
+   * specify filter mode
+   * BY_SUBMIT_TIME: filter jobs which submit time in specified range
+   * BY_END_TIME: filter jobs which end time in specified range
+   */
+  enum Mode {
+    BY_SUBMIT_TIME = 0;
+    BY_END_TIME = 1;
+  }
+  Mode mode = 4;
 }
 
 message ListAllJobsInfoResponse {
@@ -226,7 +260,7 @@ service JobService {
   rpc CancelJob(CancelJobRequest) returns (CancelJobResponse);
 
   /* ? 这个接口还需要修改, 需要能够指定结束时间范围, 查询已结束作业
-   * description: list all jobs 
+   * description: list all jobs
    * errors: 
    * - user not exist
    *   NOT_FOUND, USER_NOT_FOUND, {}
