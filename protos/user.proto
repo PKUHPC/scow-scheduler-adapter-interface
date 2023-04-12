@@ -46,6 +46,14 @@ message UnblockUserInAccountRequest {
 message UnblockUserInAccountResponse {
 }
 
+message QueryUserInAccountBlockStatusRequest {
+  string user_id = 1;
+  string account_name = 2;
+}
+
+message QueryUserInAccountBlockStatusResponse {
+  bool blocked = 1;
+}
 
 service UserService {
   /*
@@ -100,4 +108,5 @@ service UserService {
    */
   rpc UnblockUserInAccount(UnblockUserInAccountRequest) returns (UnblockUserInAccountResponse);
 
+  rpc QueryUserInAccountBlockStatus(QueryUserInAccountBlockStatusRequest) returns (QueryUserInAccountBlockStatusResponse);
 }

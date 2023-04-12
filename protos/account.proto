@@ -72,6 +72,15 @@ message GetAllAccountsWithUsersRequest {
 message GetAllAccountsWithUsersResponse {
   repeated ClusterAccountInfo accounts = 1;
 }
+
+message QueryAccountBlockStatusRequest {
+  string account_name = 1;
+}
+
+message QueryAccountBlockStatusResponse {
+  bool blocked = 1;
+}
+
 service AccountService {
 
   
@@ -131,4 +140,6 @@ service AccountService {
    * - account without users, exclude this account
    */
   rpc GetAllAccountsWithUsers(GetAllAccountsWithUsersRequest) returns (GetAllAccountsWithUsersResponse);
+
+  rpc QueryAccountBlockStatus(QueryAccountBlockStatusRequest) returns (QueryAccountBlockStatusResponse);
 }
