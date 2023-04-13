@@ -16,126 +16,85 @@ package scheduler.adapter;
 
 import "google/protobuf/timestamp.proto";
 
-enum JobState {
-  PENDING = 0;
-  RUNNING = 1;
-  SUSPENDED = 2;
-  COMPLETED = 3;
-  CANCELLED = 4;
-}
-message RunningJob {
-  string job_id = 1;
-  string partition = 2;
-  string name = 3;
-  string user = 4;
-  JobState state = 5;
-
-  // format in "[days-[hours:]]minutes:seconds"
-  string running_time = 6;
-
-  /*
-   Number of nodes allocated to the job
-   or the minimum number of nodes required by a pending job
-   */
-  uint32 nodes = 7;
-
-  /*
-   For pending jobs: the reason a job is waiting for execution. 
-   For terminated jobs with failure: an explanation as to why the job failed. 
-   For all other job states: the list of allocate nodes.
-   */
-  string nodes_or_reason = 8;
-
-  string account = 9;
-  
-  /* 
-   Number of CPUs (processors) requested by the job 
-   or allocated to it if already running.
-  */ 
-  uint32 cores = 10;
-
-  string qos = 11;
-  google.protobuf.Timestamp submission_time = 12;
-
-  // For pending jobs, a list of the nodes expected to be used when the job is started
-  string nodes_to_be_used = 13;
-
-  /*
-   format in [days-[hours:]]minutes:seconds.
-   The value may be "UNLIMITED" for no limit.
-   */
-  string time_limit = 14;
-
-  string working_dir = 15;
-}
-
-message JobTemplate {
-  string job_name = 1;
-  string account = 2;
-  optional string partition = 3;
-  optional string qos = 4;
-  uint32 node_count = 5;
-  uint32 core_count = 6;
-  uint32 max_time_minutes = 7;
-  // raw job script string
-  string command = 8;
-  string working_directory = 9;
-  optional string comment = 10;
-}
-
 message JobInfo {
   uint32 job_id = 1;
   string name = 2;
   string account = 3;
   string partition = 4;
   string qos = 5;
-  JobState state = 6;
-  string working_directory = 7;
+  /**
+   * The job state field must include the following states:
+   * PENDING, RUNNING, CANCELED, COMPLETED
+   * Other possible states should be represented in uppercase letters.
+   */
+  string state = 6;
   // the number of CPUs requested by job
-  int32 cpus_req = 8;
+  int32 cpus_req = 7;
   // memory requested by job
-  int64 mem_req_megabytes = 9;
+  int64 mem_req_mb = 8;
   // the number of nodes requested by job
-  int32 nodes_req = 10;
-  int64 time_limit_seconds = 11;
-  google.protobuf.Timestamp submit_time = 12;
+  int32 nodes_req = 9;
+  int64 time_limit_minutes = 10;
+  google.protobuf.Timestamp submit_time = 11;
+  string working_directory = 12;
+  // name of the file that stdout outputs to, relative to the working directory.
+  string output_file_name = 13;
+  // name of the file that stderr outputs to, relative to the working directory.
+  string error_file_name = 14;
+  optional google.protobuf.Timestamp start_time = 15;
+  optional int64 elapsed_seconds = 16;
+  /*
+   For pending jobs: the reason a job is waiting for execution. 
+   For terminated jobs with failure: an explanation as to why the job failed. 
+   For other states: relative reason about this state or null
+   */
+  optional string reason = 17;
+  optional string node_list = 18;
+  // the number of GPUs used by job
+  optional int32 gpus_alloc = 19;
+  // the number of CPUs used by job
+  optional int32 cpus_alloc = 20;
+  // memory used by job
+  optional int64 mem_alloc_mb = 21;
+  // the number of nodes used by job
+  optional int32 nodes_alloc = 22;
+  optional google.protobuf.Timestamp end_time = 23;
+}
 
-  message RunningInfo {
-    google.protobuf.Timestamp start_time = 1;
-    int64 elapsed_seconds = 2;
-    // The last reason a job was blocked from running
-    string reason = 3;
-    string node_list = 4;
-    // the number of GPUs used by job
-    int32 gpus_alloc = 5;
-    // the number of CPUs used by job
-    int32 cpus_alloc = 6;
-    // memory used by job
-    int64 mem_alloc_megabytes = 7;
-    // the number of nodes used by job
-    int32 nodes_alloc = 8;
+
+message GetJobsRequest {
+  // required JobInfo fields
+  repeated string fields = 1;
+
+  message TimeRange {
+    optional google.protobuf.Timestamp start_time = 1;
+    optional google.protobuf.Timestamp end_time = 2;
   }
-
-  message CompletedInfo {
-    google.protobuf.Timestamp end_time = 1;
+  // filter options. The logical relationship between multiple filtering options is "AND". 
+  message Filter {
+    optional string user = 1;
+    optional string account = 2;
+    optional string state = 3;
+    optional uint32 job_id = 4;
+    // if set this field, return jobs that ended between the time range
+    optional TimeRange end_time = 5;
   }
+  // specify filter options
+  optional Filter filter = 2;
 
-  // after starting to run, a job should include such info
-  optional RunningInfo running_info = 13;
-  // after completed, a job should include such info
-  optional CompletedInfo completed_info = 14;
-
+  // 'page' number with a 'pagesize' pagination.
+  message PageInfo {
+    uint32 page = 1;
+    uint64 page_size = 2;
+  }
+  // if not set, no pagination
+  optional PageInfo page_info = 3;
 }
 
-message GetRunningJobsRequest {
-  optional string user_id = 1;
-  repeated string account_names = 2;
-  repeated string job_id_list = 3;
+message GetJobsResponse {
+  repeated JobInfo jobs = 1;
 }
 
-message GetRunningJobsResponse {
-  repeated RunningJob jobs = 1;
-}
 
 message ChangeJobTimeLimitRequest {
   string job_id = 1;
@@ -151,26 +110,27 @@ message QueryJobTimeLimitRequest {
 }
 
 message QueryJobTimeLimitResponse {
-  uint64 time_limit_seconds = 1;
+  uint64 time_limit_minutes = 1;
 }
 
 message SubmitJobRequest {
   string user_id = 1;
-  JobTemplate job_info = 2;
-  string script = 3;
-  bool save_as_template = 4;
+  string job_name = 2;
+  string account = 3;
+  string partition = 4;
+  optional string qos = 5;
+  uint32 node_count = 6;
+  uint32 gpu_count = 7;
+  uint64 memory_mb = 8;
+  uint32 core_count = 9;
+  optional uint32 time_limit_minutes = 10;
+  string script = 11;
+  string working_directory = 12;
 }
 
 message SubmitJobResponse {
   uint32 job_id = 1;
-}
-
-message GenerateJobScriptRequest {
-  JobTemplate job_info = 1;
-}
-
-message GenerateJobScriptResponse {
-  string script = 1;
+  string generated_script = 2;
 }
 
 message CancelJobRequest {
@@ -181,40 +141,12 @@ message CancelJobRequest {
 message CancelJobResponse {
 }
 
-message ListAllJobsInfoRequest{
-  optional string user_id = 1;
-  google.protobuf.Timestamp start_time =2;
-  google.protobuf.Timestamp end_time =3;
-  /** 
-   * specify filter mode
-   * BY_SUBMIT_TIME: filter jobs which submit time in specified range
-   * BY_END_TIME: filter jobs which end time in specified range
-   */
-  enum Mode {
-    BY_SUBMIT_TIME = 0;
-    BY_END_TIME = 1;
-  }
-  Mode mode = 4;
-}
-
-message ListAllJobsInfoResponse {
-  repeated JobInfo results = 1;
-}
-
 service JobService {
+  
   /*
-   * description: get running jobs info
-   * special case:
-   * - not specify user, return all users' jobs
-   * - not specify account, return all jobs(regardless of account)
-   * - not specify job id, return all jobs
-   * - one of accounts not exist, don't throw
-   * - one of jobid not exist, don't throw
-   * errors: 
-   * - user not exist
-   *   NOT_FOUND, USER_NOT_FOUND, {}
+   * description: get jobs with filter options
    */
-  rpc GetRunningJobs(GetRunningJobsRequest) returns (GetRunningJobsResponse);
+  rpc GetJobs(GetJobsRequest) returns (GetJobsResponse);
 
   /*
    * description: change a job's time limit 
@@ -244,10 +176,6 @@ service JobService {
    */
   rpc SubmitJob(SubmitJobRequest) returns (SubmitJobResponse);
 
-  /* ? 这个接口可能没有存在的必要
-   * description: generate job script(append extra options for scheduler), can be used for submitting job  
-   */
-  rpc GenerateJobScript(GenerateJobScriptRequest) returns (GenerateJobScriptResponse);
 
   /*
    * description: cancel a job
@@ -259,14 +187,5 @@ service JobService {
    */
   rpc CancelJob(CancelJobRequest) returns (CancelJobResponse);
 
-  /* ? 这个接口还需要修改, 需要能够指定结束时间范围, 查询已结束作业
-   * description: list all jobs
-   * errors: 
-   * - user not exist
-   *   NOT_FOUND, USER_NOT_FOUND, {}
-   * special case:
-   * - not specify user, return all jobs
-   */
-  rpc ListAllJobsInfo(ListAllJobsInfoRequest) returns (ListAllJobsInfoResponse);
 
 }

@@ -21,24 +21,26 @@ message GetClusterConfigRequest {
 message Partition {
   string name = 1;
   // mem: memory size in M
-  int64 mem_megabytes = 2;
+  uint64 mem_mb = 2;
   // cores: number of cores
-  int32 cores = 3;
+  uint32 cores = 3;
   // gpus: number of gpu
-  int32 gpus = 4;
+  uint32 gpus = 4;
   // nodes: number of nodes
-  int32 nodes = 5;
+  uint32 nodes = 5;
+  // list that stores qos. the list can be empty.
   repeated string qos = 6;
   // price item description
   optional string comment = 7;
 }
 
 message GetClusterConfigResponse {
-  repeated string login_nodes = 1;
-  repeated Partition partitions = 2;
-  bool mis_ignore = 3;
+  repeated Partition partitions = 1;
 }
 
 service ConfigService {
+  /*
+   * description: get cluster config
+   */
   rpc GetClusterConfig(GetClusterConfigRequest) returns (GetClusterConfigResponse);
 }
