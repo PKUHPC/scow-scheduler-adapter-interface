@@ -38,16 +38,12 @@ message JobInfo {
   google.protobuf.Timestamp submit_time = 11;
   string working_directory = 12;
   // name of the file that stdout outputs to, relative to the working directory.
-  string output_file_name = 13;
+  string stdout_path = 13;
   // name of the file that stderr outputs to, relative to the working directory.
-  string error_file_name = 14;
+  string stderr_path = 14;
   optional google.protobuf.Timestamp start_time = 15;
   optional int64 elapsed_seconds = 16;
-  /*
-   For pending jobs: the reason a job is waiting for execution. 
-   For terminated jobs with failure: an explanation as to why the job failed. 
-   For other states: relative reason about this state or null
-   */
+  // indicates why is the job in this state
   optional string reason = 17;
   optional string node_list = 18;
   // the number of GPUs used by job
@@ -62,39 +58,52 @@ message JobInfo {
 }
 
 
+message TimeRange {
+  optional google.protobuf.Timestamp start_time = 1;
+  optional google.protobuf.Timestamp end_time = 2;
+}
+message PageInfo {
+  uint32 page = 1;
+  uint64 page_size = 2;
+}
 message GetJobsRequest {
   // required JobInfo fields
+  // The value of the string corresponds to the name of each field in JobInfo
   repeated string fields = 1;
 
-  message TimeRange {
-    optional google.protobuf.Timestamp start_time = 1;
-    optional google.protobuf.Timestamp end_time = 2;
-  }
   // filter options. The logical relationship between multiple filtering options is "AND". 
   message Filter {
     optional string user = 1;
     optional string account = 2;
     optional string state = 3;
-    optional uint32 job_id = 4;
     // if set this field, return jobs that ended between the time range
-    optional TimeRange end_time = 5;
+    optional TimeRange end_time = 4;
   }
   // specify filter options
   optional Filter filter = 2;
 
   // 'page' number with a 'pagesize' pagination.
-  message PageInfo {
-    uint32 page = 1;
-    uint64 page_size = 2;
-  }
   // if not set, no pagination
   optional PageInfo page_info = 3;
 }
 
 message GetJobsResponse {
   repeated JobInfo jobs = 1;
+  // page total count
+  // if no pagination, don't set this field
+  optional uint32 total_count = 2;
 }
 
+message GetJobByIdRequest {
+  // required JobInfo fields
+  // The value of the string corresponds to the name of each field in JobInfo
+  repeated string fields = 1;
+  uint32 job_id = 2;
+}
+
+message GetJobByIdResponse {
+  JobInfo job = 1;
+}
 
 message ChangeJobTimeLimitRequest {
   string job_id = 1;
@@ -145,8 +154,18 @@ service JobService {
   
   /*
    * description: get jobs with filter options
+   * special case: 
+   * - some of fields not exist, discard them
    */
   rpc GetJobs(GetJobsRequest) returns (GetJobsResponse);
+
+  /*
+   * description: get job info by id
+   * special case: 
+   * - job id not exist, don't throw
+   * - some of fields not exist, discard them
+   */
+  rpc GetJobById (GetJobByIdRequest) returns (GetJobByIdResponse);
 
   /*
    * description: change a job's time limit 
