@@ -25,6 +25,18 @@ message JobInfo {
   /**
    * The job state field must include the following states:
    * PENDING, RUNNING, CANCELED, COMPLETED
+   * - PENDING: 
+   *   A state indicating that a job has been submitted 
+   *   and is waiting for further action before it can be started.
+   * - RUNNING:
+   *   A state indicating that a job is currently in progress 
+   *   and is actively being worked on or executed.
+   * - CANCELED:
+   *   A state indicating that a job has been terminated prematurely 
+   *   and will not be completed as originally intended.
+   * - COMPLETED:
+   *   A state indicating that a job has been successfully finished 
+   *   and has reached its intended conclusion.
    * Other possible states should be represented in uppercase letters.
    */
   string state = 6;
