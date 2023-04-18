@@ -63,8 +63,6 @@ service UserService {
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
    * - user already exists in account
    *   ALREADY_EXISTS, USER_ACCOUNT_ALREADY_EXISTS, {}
-   * special case:
-   * - user not exist, create user and add it to account
    */
   rpc AddUserToAccount(AddUserToAccountRequest) returns (AddUserToAccountResponse);
 
@@ -73,8 +71,6 @@ service UserService {
    * errors: 
    * - account not exist
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
-   * - user not exist
-   *   NOT_FOUND, USER_NOT_FOUND, {} ? slurm.sh并没有特殊识别这种情况
    * - user not exist in account
    *   NOT_FOUND, USER_ACCOUNT_NOT_FOUND, {}
    */
@@ -85,8 +81,6 @@ service UserService {
    * errors: 
    * - account not exist
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
-   * - user not exist
-   *   NOT_FOUND, USER_NOT_FOUND, {}
    * - user not exist in account
    *   NOT_FOUND, USER_ACCOUNT_NOT_FOUND, {} 
    * special case:
@@ -99,8 +93,6 @@ service UserService {
    * errors: 
    * - account not exist
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
-   * - user not exist
-   *   NOT_FOUND, USER_NOT_FOUND, {}
    * - user not exist in account
    *   NOT_FOUND, USER_ACCOUNT_NOT_FOUND, {} 
    * special case:
@@ -108,5 +100,13 @@ service UserService {
    */
   rpc UnblockUserInAccount(UnblockUserInAccountRequest) returns (UnblockUserInAccountResponse);
 
+  /*
+   * description: query if a user is blocked in an account
+   * errors: 
+   * - account not exist
+   *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   * - user not exist in account
+   *   NOT_FOUND, USER_ACCOUNT_NOT_FOUND, {} 
+   */
   rpc QueryUserInAccountBlockStatus(QueryUserInAccountBlockStatusRequest) returns (QueryUserInAccountBlockStatusResponse);
 }
