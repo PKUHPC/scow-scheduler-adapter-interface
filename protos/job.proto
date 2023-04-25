@@ -118,7 +118,7 @@ message GetJobByIdResponse {
 }
 
 message ChangeJobTimeLimitRequest {
-  string job_id = 1;
+  uint32 job_id = 1;
   // increase or decrease time limit
   int64 delta_minutes = 2;
 }
@@ -127,7 +127,7 @@ message ChangeJobTimeLimitResponse {
 }
 
 message QueryJobTimeLimitRequest {
-  string job_id = 1;
+  uint32 job_id = 1;
 }
 
 message QueryJobTimeLimitResponse {
