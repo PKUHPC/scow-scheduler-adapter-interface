@@ -50,9 +50,9 @@ message JobInfo {
   google.protobuf.Timestamp submit_time = 11;
   string working_directory = 12;
   // name of the file that stdout outputs to, relative to the working directory.
-  string stdout_path = 13;
+  optional string stdout_path = 13;
   // name of the file that stderr outputs to, relative to the working directory.
-  string stderr_path = 14;
+  optional string stderr_path = 14;
   optional google.protobuf.Timestamp start_time = 15;
   optional int64 elapsed_seconds = 16;
   // indicates why is the job in this state
