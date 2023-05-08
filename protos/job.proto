@@ -86,9 +86,9 @@ message GetJobsRequest {
 
   // filter options. The logical relationship between multiple filtering options is "AND". 
   message Filter {
-    repeated string user = 1;
-    repeated string account = 2;
-    repeated string state = 3;
+    repeated string users = 1;
+    repeated string accounts = 2;
+    repeated string states = 3;
     // if set this field, return jobs that submitted between the time range
     optional TimeRange submit_time = 4;
     // if set this field, return jobs that ended between the time range
@@ -142,7 +142,7 @@ message SubmitJobRequest {
   string job_name = 2;
   string account = 3;
   // if not set, use a default partition
-  optional string partition = 4;
+  string partition = 4;
   optional string qos = 5;
   uint32 node_count = 6;
   uint32 gpu_count = 7;
