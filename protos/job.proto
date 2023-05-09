@@ -153,9 +153,9 @@ message SubmitJobRequest {
   string script = 11;
   string working_directory = 12;
   // relative to working directory
-  string stdout = 13;
+  optional string stdout = 13;
   // relative to working directory
-  string stderr = 14;
+  optional string stderr = 14;
 }
 
 message SubmitJobResponse {
