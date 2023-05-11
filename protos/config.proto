@@ -34,8 +34,13 @@ message Partition {
   optional string comment = 7;
 }
 
+enum SchedulerType {
+  SLURM = 0;
+}
+
 message GetClusterConfigResponse {
   repeated Partition partitions = 1;
+  SchedulerType scheduler_type = 2;
 }
 
 service ConfigService {
