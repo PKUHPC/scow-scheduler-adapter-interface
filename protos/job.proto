@@ -156,6 +156,8 @@ message SubmitJobRequest {
   optional string stdout = 13;
   // relative to working directory
   optional string stderr = 14;
+  // extra options when submitting job
+  repeated string extra_options = 15;
 }
 
 message SubmitJobResponse {

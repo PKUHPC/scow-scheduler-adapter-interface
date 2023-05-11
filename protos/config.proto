@@ -34,8 +34,10 @@ message Partition {
   optional string comment = 7;
 }
 
+
 message GetClusterConfigResponse {
   repeated Partition partitions = 1;
+  string scheduler_name = 2;
 }
 
 service ConfigService {
