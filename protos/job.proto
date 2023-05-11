@@ -156,6 +156,9 @@ message SubmitJobRequest {
   optional string stdout = 13;
   // relative to working directory
   optional string stderr = 14;
+  // For slurm, it should be extra options for sbatch
+  // such as ["--gpus gres:2", "--time 10"] 
+  repeated string extra_options = 15;
 }
 
 message SubmitJobResponse {
