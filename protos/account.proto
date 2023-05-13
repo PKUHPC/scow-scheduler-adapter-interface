@@ -12,7 +12,7 @@
 
 syntax = "proto3";
 
-package scheduler.adapter;
+package scow.scheduler_adapter;
 
 message ListAccountsRequest {
   string user_id = 1;

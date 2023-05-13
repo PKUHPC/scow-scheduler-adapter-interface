@@ -12,7 +12,7 @@
 
 syntax = "proto3";
 
-package scheduler.adapter;
+package scow.scheduler_adapter;
 
 import "google/protobuf/timestamp.proto";
 
