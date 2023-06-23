@@ -79,6 +79,17 @@ message PageInfo {
   uint32 page = 1;
   uint64 page_size = 2;
 }
+
+message SortInfo {
+  enum SortOrder {
+    ASC = 0;
+    DESC = 1;
+  }
+
+  string field = 1;
+  SortOrder order = 2;
+}
+
 message GetJobsRequest {
   // required JobInfo fields
   // The value of the string corresponds to the name of each field in JobInfo
@@ -100,6 +111,9 @@ message GetJobsRequest {
   // 'page' number with a 'pagesize' pagination.
   // if not set, no pagination
   optional PageInfo page_info = 3;
+
+  // returned jobs should be sorted if set
+  optional SortInfo sort = 4;
 }
 
 message GetJobsResponse {
