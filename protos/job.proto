@@ -100,9 +100,9 @@ message GetJobsRequest {
     repeated string users = 1;
     repeated string accounts = 2;
     repeated string states = 3;
-    // if set this field, return jobs that submitted between the time range
+    // if set this field, return jobs that submitted between the time range(both endpoints included)
     optional TimeRange submit_time = 4;
-    // if set this field, return jobs that ended between the time range
+    // if set this field, return jobs that ended between the time range(both endpoints included)
     optional TimeRange end_time = 5;
   }
   // specify filter options
