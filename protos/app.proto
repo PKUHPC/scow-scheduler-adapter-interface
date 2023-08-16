@@ -21,6 +21,7 @@ message GetConnectionConfigRequest {
 message GetConnectionConfigResponse {
   optional string host = 1;
   optional uint32 port = 2;
+  optional string password = 3;
 }
 
 service AppService {
@@ -28,9 +29,10 @@ service AppService {
    * description: get real connection config when connecting to an app
    * special case: 
    * - For interactive applications running on bare metal:
-   *   Directly use the host and port configuration recorded in scow, so the host and port fields can be empty.
+   *   Directly use the configuration recorded in scow, so all fields can be empty.
    * - For interactive applications running in containers:
    *   This interface needs to provide the host and port information of the host machine to ensure scow can connect to the correct address.
+   *   Sometimes it needs to provide refreshed password for vnc app
    */
   rpc GetConnectionConfig(GetConnectionConfigRequest) returns (GetConnectionConfigResponse);
 }
