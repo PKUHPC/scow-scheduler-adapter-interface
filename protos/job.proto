@@ -189,7 +189,7 @@ message CancelJobResponse {
 
 message SubmitFileAsJobRequest {
   string user_id = 1;
-  string script = 2;
+  string file_directory = 2;
 }
 
 message SubmitFileAsJobResponse {
@@ -262,6 +262,8 @@ service JobService {
    *   }
    * - user not exist
    *   NOT_FOUND, USER_NOT_FOUND, {}
+   * - file not exist
+   *   NOT_FOUND, FILE_NOT_FOUND, {}
    */
   rpc SubmitFileAsJob(SubmitFileAsJobRequest) returns (SubmitFileAsJobResponse);
 
