@@ -187,15 +187,6 @@ message CancelJobRequest {
 message CancelJobResponse {
 }
 
-message SubmitFileAsJobRequest {
-  string user_id = 1;
-  string script = 2;
-}
-
-message SubmitFileAsJobResponse {
-  uint32 job_id = 1;
-}
-
 service JobService {
   
   /*
@@ -252,17 +243,5 @@ service JobService {
    */
   rpc CancelJob(CancelJobRequest) returns (CancelJobResponse);
 
-
-  /*
-   * description: submit a file as a job 
-   * errors: 
-   * - sbatch failed
-   *   UNKNOWN, SBATCH_FAILED, {
-   *     reason: string
-   *   }
-   * - user not exist
-   *   NOT_FOUND, USER_NOT_FOUND, {}
-   */
-  rpc SubmitFileAsJob(SubmitFileAsJobRequest) returns (SubmitFileAsJobResponse);
 
 }
