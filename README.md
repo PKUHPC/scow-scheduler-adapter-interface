@@ -1,5 +1,7 @@
 # @scow/scow-scheduler-adapter-interface
 
+![npm](https://img.shields.io/npm/v/@scow/scow-scheduler-adapter-interface?label=API)
+
 Interface for SCOW to call different schedulers. 
 
 ## Implementations 
@@ -11,12 +13,12 @@ Interface for SCOW to call different schedulers.
 You can get the proto files using the following methods:
 
 - `git clone` this repository
-- `npm install --save @scow/scow-scheduler-adapter-interface`
+- `npm install --save @scow/scow-scheduler-adapter-interface@{version number}`
 - `buf generate https://github.com/PKUHPC/scow-scheduler-adapter-interface.git`
 
 ## Versioning
 
-`package.json` contains the version number of the interface.
+`package.json` contains the version number of the interface. Each version has a tag attached to respective commit, and are automatically published to npm.
 
 We are using `SemVer 2.0` to version the interfaces.
 
