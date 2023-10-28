@@ -1,0 +1,55 @@
+name: Version and Publish APIs
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [master]
+  push:
+    tags:
+      - "v**"
+    branches:
+      - master
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+env:
+  GITHUB_CR: ghcr.io
+
+jobs:
+  publish:
+    name: Version and Publish APIs
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: pnpm/action-setup@v2.4.0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Lint code
+        run: pnpm lint
+
+      - name: Create Release Pull Request or Publish
+        id: changesets
+        uses: changesets/action@v1
+        if: github.ref == 'refs/heads/master'
+        with:
+          version: pnpm ci:version
+          publish: pnpm ci:publish
+          createGithubReleases: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
