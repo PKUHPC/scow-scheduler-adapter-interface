@@ -15,6 +15,9 @@ You can get the proto files using the following methods:
 - `git clone` this repository
 - `npm install --save @scow/scow-scheduler-adapter-interface@{version number}`
 - `buf generate https://github.com/PKUHPC/scow-scheduler-adapter-interface.git`
+  - append `#ref={commit hash}` to get a specific commit
+  - append `#branch={branch name}` to get a specific branch
+  - by default, the latest master is fetched
 
 ## Versioning
 
