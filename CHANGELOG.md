@@ -1,5 +1,11 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.2.0
+
+### Minor Changes
+
+- 3ee9b2e: 新增提交任意文件直接作为作业文本提交到调度器执行接口 SubmitScriptAsJob
+
 ## 1.1.0
 
 ### Minor Changes
