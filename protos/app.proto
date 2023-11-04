@@ -14,11 +14,11 @@ syntax = "proto3";
 
 package scow.scheduler_adapter;
 
-message GetConnectionConfigRequest {
+message GetAppConnectionInfoRequest {
   uint32 job_id = 1;
 }
 
-message GetConnectionConfigResponse {
+message GetAppConnectionInfoResponse {
   optional string host = 1;
   optional uint32 port = 2;
   optional string password = 3;
@@ -32,7 +32,7 @@ service AppService {
    *   Directly use the configuration recorded in scow, so all fields can be empty.
    * - For interactive applications running in containers:
    *   This interface needs to provide the host and port information of the host machine to ensure scow can connect to the correct address.
-   *   Sometimes it needs to provide refreshed password for vnc app
+   *   Sometimes it needs to provide password for app
    */
-  rpc GetConnectionConfig(GetConnectionConfigRequest) returns (GetConnectionConfigResponse);
+  rpc GetAppConnectionInfo(GetAppConnectionInfoRequest) returns (GetAppConnectionInfoResponse);
 }
