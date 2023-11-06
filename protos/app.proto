@@ -19,9 +19,16 @@ message GetAppConnectionInfoRequest {
 }
 
 message GetAppConnectionInfoResponse {
-  optional string host = 1;
-  optional uint32 port = 2;
-  optional string password = 3;
+  message NoAppConnectionInfo {}
+  message AppConnectionInfo {
+    string host = 1;
+    uint32 port = 2;
+    string password = 3;
+  }
+  oneof response {
+    NoAppConnectionInfo no_info = 1;
+    AppConnectionInfo info = 2;
+  }
 }
 
 service AppService {
