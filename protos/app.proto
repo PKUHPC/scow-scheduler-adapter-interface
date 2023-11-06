@@ -23,7 +23,7 @@ message GetAppConnectionInfoResponse {
   message AppConnectionInfo {
     string host = 1;
     uint32 port = 2;
-    optional string password = 3;
+    string password = 3;
   }
   oneof response {
     NoAppConnectionInfo no_info = 1;
