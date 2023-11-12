@@ -19,15 +19,15 @@ message GetAppConnectionInfoRequest {
 }
 
 message GetAppConnectionInfoResponse {
-  message NoAppConnectionInfo {}
+  message UseScriptGenerated {}
   message AppConnectionInfo {
     string host = 1;
     uint32 port = 2;
     string password = 3;
   }
   oneof response {
-    NoAppConnectionInfo no_info = 1;
-    AppConnectionInfo info = 2;
+    UseScriptGenerated use_script_generated = 1;
+    AppConnectionInfo app_connection_info = 2;
   }
 }
 
