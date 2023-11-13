@@ -1,5 +1,11 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.3.0
+
+### Minor Changes
+
+- f8425c3: 添加交互式应用接口，添加 GetConnectionConfig 用于获取容器内交互式应用的连接配置
+
 ## 1.2.0
 
 ### Minor Changes
