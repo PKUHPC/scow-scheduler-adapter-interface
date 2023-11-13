@@ -70,8 +70,6 @@ message ClusterInfo {
   // node utilization rate
   string usage_rate = 18;
   string status = 19;
-  // cluster type, for example: slurm、crane、k8s
-   string type = 20;
 }
 
 message GetClusterInfoRequest {
