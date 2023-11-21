@@ -1,5 +1,11 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.4.0
+
+### Minor Changes
+
+- b03718d: 增加获取集群信息的接口 GetClusterInfo
+
 ## 1.3.0
 
 ### Minor Changes
