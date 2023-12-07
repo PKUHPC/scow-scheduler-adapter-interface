@@ -190,6 +190,8 @@ message CancelJobResponse {
 message SubmitScriptAsJobRequest {
   string user_id = 1;
   string script = 2;
+  // absolute path of the script file, used as job's work directory when not specified in script 
+  optional string script_file_full_path = 3;
 }
 
 message SubmitScriptAsJobResponse {
