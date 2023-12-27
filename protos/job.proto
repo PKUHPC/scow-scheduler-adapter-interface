@@ -208,8 +208,8 @@ message GetRunningJobNodeInfoRequest {
 message GetRunningJobNodeInfoResponse {
   // 应用运行的节点
   string node = 1;
-  // 应用运行的pod
-  string pod = 2;
+  // 应用运行的容器ID
+  string container_id = 2;
 }
 
 service JobService {
