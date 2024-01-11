@@ -175,6 +175,8 @@ message SubmitJobRequest {
   optional string algorithm = 16;
   optional string dataset = 17;
   optional string image = 18;
+  // mount point of the respository
+  optional string mountPoint = 19;
 }
 
 message SubmitJobResponse {
@@ -201,16 +203,6 @@ message SubmitScriptAsJobResponse {
   uint32 job_id = 1;
 }
 
-message GetRunningJobNodeInfoRequest {
-  uint32 job_id = 1;
-}
-
-message GetRunningJobNodeInfoResponse {
-  // 应用运行的节点
-  string node = 1;
-  // 应用运行的容器ID
-  string container_id = 2;
-}
 
 service JobService {
   
@@ -280,11 +272,4 @@ service JobService {
    */
   rpc SubmitScriptAsJob(SubmitScriptAsJobRequest) returns (SubmitScriptAsJobResponse);
 
-  /*
-   * description: get running job node info
-   * errors: 
-   * - job not found
-   *   NOT_FOUND, JOB_NOT_FOUND, {}
-   */
-  rpc GetRunningJobNodeInfo(GetRunningJobNodeInfoRequest) returns (GetRunningJobNodeInfoResponse);
 }
