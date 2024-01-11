@@ -172,10 +172,12 @@ message SubmitJobRequest {
   optional string stderr = 14;
   // extra options when submitting job
   repeated string extra_options = 15;
+
+  // algorithm, dataset, image, modal, mountPoint are file paths mounted to job running container
   optional string algorithm = 16;
   optional string dataset = 17;
   optional string image = 18;
-  // mount point of the respository
+  optional string model = 19;
   optional string mountPoint = 19;
 }
 
