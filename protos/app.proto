@@ -31,6 +31,17 @@ message GetAppConnectionInfoResponse {
   }
 }
 
+message GetRunningJobNodeInfoRequest {
+  uint32 job_id = 1;
+}
+
+message GetRunningJobNodeInfoResponse {
+  // 应用运行的节点
+  string node = 1;
+  // 应用运行的容器ID
+  string container_id = 2;
+}
+
 service AppService {
   /*
    * description: get real connection config when connecting to an app
@@ -42,4 +53,12 @@ service AppService {
    *   Sometimes it needs to provide password for app
    */
   rpc GetAppConnectionInfo(GetAppConnectionInfoRequest) returns (GetAppConnectionInfoResponse);
+
+    /*
+   * description: get interactive applications node info
+   * errors: 
+   * - job not found
+   *   NOT_FOUND, JOB_NOT_FOUND, {}
+   */
+   rpc GetRunningJobNodeInfo(GetRunningJobNodeInfoRequest) returns (GetRunningJobNodeInfoResponse);
 }
