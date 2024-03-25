@@ -40,6 +40,10 @@ message GetRunningJobNodeInfoResponse {
   string node = 1;
   // 应用运行的容器ID
   string container_id = 2;
+  // 应用运行的pod
+  string pod = 3;
+  // 应用运行的namespace
+  string namespace = 4;
 }
 
 service AppService {
