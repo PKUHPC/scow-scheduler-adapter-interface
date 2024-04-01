@@ -178,7 +178,9 @@ message SubmitJobRequest {
   optional string dataset = 17;
   optional string image = 18;
   optional string model = 19;
-  optional string mount_point = 20;
+  repeated string mount_point = 20;
+  // vnc app xstartup script file path
+  optional string xstartup_path = 21;
 }
 
 message SubmitJobResponse {
