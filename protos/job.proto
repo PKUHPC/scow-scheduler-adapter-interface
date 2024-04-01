@@ -173,13 +173,12 @@ message SubmitJobRequest {
   // extra options when submitting job
   repeated string extra_options = 15;
 
-  // algorithm, dataset, image, modal are file paths mounted to job running container
+  // algorithm, dataset, image, modal, mountPoint are file paths mounted to job running container
   optional string algorithm = 16;
   optional string dataset = 17;
   optional string image = 18;
   optional string model = 19;
-  // multiple file paths mount to job running container
-  repeated string mount_points = 20;
+  optional string mount_point = 20;
   // vnc app xstartup script file path
   optional string xstartup_path = 21;
 }
