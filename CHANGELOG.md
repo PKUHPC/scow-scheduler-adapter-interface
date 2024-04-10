@@ -1,5 +1,11 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.6.0
+
+### Minor Changes
+
+- b57ab8b: SubmitJobRequest 增加可选参数 algorithm, dataset, image, model, mountPoint 以及增加 GetRunningJobNodeInfo 接口
+
 ## 1.5.0
 
 ### Minor Changes
