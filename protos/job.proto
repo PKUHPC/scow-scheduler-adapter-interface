@@ -198,7 +198,6 @@ message SubmitScriptAsJobResponse {
   uint32 job_id = 1;
 }
 
-
 service JobService {
   
   /*
