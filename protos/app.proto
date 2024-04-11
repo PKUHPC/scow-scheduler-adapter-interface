@@ -31,11 +31,11 @@ message GetAppConnectionInfoResponse {
   }
 }
 
-message GetRunningContainerJobInfoReuqest {
+message GetRunningContainerJobInfoRequest {
   uint32 job_id = 1;
 }
 
-message GetRunningContainerJobInfoReponse {
+message GetRunningContainerJobInfoResponse {
   // 应用运行的节点
   string node = 1;
   // 应用运行的容器ID
@@ -66,5 +66,5 @@ service AppService {
    * - job is not running in a container
    *   FAILED_PRECONDITION, JOB_NOT_RUNNING_IN_CONTAINER, {}
    */
-   rpc GetRunningContainerJobInfo(GetRunningContainerJobInfoReuqest) returns (GetRunningContainerJobInfoReponse);
+   rpc GetRunningContainerJobInfo(GetRunningContainerJobInfoRequest) returns (GetRunningContainerJobInfoResponse);
 }
