@@ -31,21 +31,6 @@ message GetAppConnectionInfoResponse {
   }
 }
 
-message GetRunningContainerJobInfoRequest {
-  uint32 job_id = 1;
-}
-
-message GetRunningContainerJobInfoResponse {
-  // 应用运行的节点
-  string node = 1;
-  // 应用运行的容器ID
-  string container_id = 2;
-  // 应用运行的pod
-  string pod = 3;
-  // 应用运行的namespace
-  string namespace = 4;
-}
-
 service AppService {
   /*
    * description: get real connection config when connecting to an app
@@ -58,13 +43,4 @@ service AppService {
    */
   rpc GetAppConnectionInfo(GetAppConnectionInfoRequest) returns (GetAppConnectionInfoResponse);
 
-    /*
-   * description: get interactive applications node info
-   * errors: 
-   * - job not found
-   *   NOT_FOUND, JOB_NOT_FOUND, {}
-   * - job is not running in a container
-   *   FAILED_PRECONDITION, JOB_NOT_RUNNING_IN_CONTAINER, {}
-   */
-   rpc GetRunningContainerJobInfo(GetRunningContainerJobInfoRequest) returns (GetRunningContainerJobInfoResponse);
 }

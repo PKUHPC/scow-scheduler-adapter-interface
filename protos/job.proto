@@ -68,6 +68,15 @@ message JobInfo {
   // the number of nodes used by job
   optional int32 nodes_alloc = 23;
   optional google.protobuf.Timestamp end_time = 24;
+
+  // 应用运行的节点
+  optional string node = 1;
+  // 应用运行的容器ID
+  optional  string container_id = 2;
+  // 应用运行的pod
+  optional  string pod = 3;
+  // 应用运行的namespace
+  optional  string namespace = 4;
 }
 
 
