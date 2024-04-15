@@ -70,13 +70,13 @@ message JobInfo {
   optional google.protobuf.Timestamp end_time = 24;
 
   // 应用运行的节点
-  optional string node = 1;
+  optional string node = 25;
   // 应用运行的容器ID
-  optional  string container_id = 2;
+  optional  string container_id = 26;
   // 应用运行的pod
-  optional  string pod = 3;
+  optional  string pod = 27;
   // 应用运行的namespace
-  optional  string namespace = 4;
+  optional  string namespace = 28;
 }
 
 
