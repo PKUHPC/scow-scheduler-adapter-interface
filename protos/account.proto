@@ -26,6 +26,7 @@ message CreateAccountRequest {
   string account_name = 1;
   string owner_user_id = 2;
   // specify the available partitions when creating an account
+  // when the value dose not exist: use all partitions
   repeated string available_partitions = 3;
 }
 
@@ -35,7 +36,7 @@ message CreateAccountResponse {
 message BlockAccountRequest {
   string account_name = 1;
   // when the value exists: block specified partition(s) of the account
-  // when the value dose not exist: block the account in all partitions
+  // when the value dose not exist or is []: block the account in all partitions
   repeated string available_partitions = 3;
 }
 
@@ -45,6 +46,7 @@ message BlockAccountResponse {
 message UnblockAccountRequest {
   string account_name = 1;
   // specify the available partition(s) when executing unblock
+  // when the value dose not exist: use all partitions
   repeated string available_partitions = 2;
 }
 
@@ -62,7 +64,7 @@ message ClusterAccountInfo {
   optional string owner = 3;
   bool blocked = 4;
   // the available partitions
-  repeated string available_partitions = 2;
+  repeated string available_partitions = 5;
 }
 
 message GetAllAccountsWithUsersRequest {
@@ -75,15 +77,14 @@ message GetAllAccountsWithUsersResponse {
 
 message QueryAccountBlockStatusRequest {
   string account_name = 1;
-  // query account block status with the specified partition
+  // query in specified partition(s)
+  // when the value does not exist, maintain the original query logic
   repeated string partitions = 2;
 }
 
 message QueryAccountBlockStatusResponse {
   bool blocked = 1;
 }
-
-
 
 
 service AccountService {
@@ -140,4 +141,5 @@ service AccountService {
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
    */
   rpc QueryAccountBlockStatus(QueryAccountBlockStatusRequest) returns (QueryAccountBlockStatusResponse);
+
 }
