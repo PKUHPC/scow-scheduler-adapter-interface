@@ -24,7 +24,6 @@ message ListAccountsResponse {
 
 message SpecifiedPartitions {
   // specify the partitions
-  // use the value only when is_partition_specified is true
   repeated string partitions = 1;
 }
 
