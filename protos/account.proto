@@ -22,27 +22,24 @@ message ListAccountsResponse {
   repeated string accounts = 1;
 }
 
-message SpecifiedPartitions {
-  // specify the partitions
-  repeated string partitions = 1;
-}
-
 message CreateAccountRequest {
   string account_name = 1;
   string owner_user_id = 2;
-  // specify the available partitions when creating an account
-  // when the value is undefined, create account with all partitions
-  // when the value is [], create account with no available partitions
-  optional SpecifiedPartitions available_partitions = 3;
 }
 
 message CreateAccountResponse {
+}
+
+message SpecifiedPartitions {
+  // specify the partitions
+  repeated string partitions = 1;
 }
 
 message BlockAccountRequest {
   string account_name = 1;
   // when the value exists: block specified partition(s) of the account
   // when the value is undefined: block the account in all partitions
+  // when the value is [], return
   optional SpecifiedPartitions blocked_partitions = 2;
 }
 
@@ -53,6 +50,7 @@ message UnblockAccountRequest {
   string account_name = 1;
   // specify the available partition(s) when executing unblock
   // when the value is undefined: use all partitions
+  // when the value is [], return
   optional SpecifiedPartitions unblocked_partitions = 2;
 }
 
@@ -89,7 +87,8 @@ message GetAllAccountsWithUsersResponse {
 message QueryAccountBlockStatusRequest {
   string account_name = 1;
   // query in specified partition(s)
-  // when the value does not exist or [], use all partitions
+  // when the value does not exist, return all partitions blocked details
+  // when the value is [], return BAD_REQUEST
   optional SpecifiedPartitions queryed_partitions = 2;
 }
 
@@ -127,6 +126,7 @@ service AccountService {
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
    * special case:
    * - account already blocked, don't throw error
+   * - blocked partitions is [], don't throw error
    */
   rpc BlockAccount(BlockAccountRequest) returns (BlockAccountResponse);
 
@@ -137,6 +137,7 @@ service AccountService {
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
    * special case:
    * - account already unblocked, don't throw error
+   * - unblocked partitions is [], don't throw error
    */
   rpc UnblockAccount(UnblockAccountRequest) returns (UnblockAccountResponse);
 
@@ -152,6 +153,8 @@ service AccountService {
    * errors: 
    * - account not exist
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   * - queryed partitions is not undefined but []
+   *   BAD_REQUEST
    */
   rpc QueryAccountBlockStatus(QueryAccountBlockStatusRequest) returns (QueryAccountBlockStatusResponse);
 
