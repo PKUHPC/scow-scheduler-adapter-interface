@@ -22,12 +22,19 @@ message ListAccountsResponse {
   repeated string accounts = 1;
 }
 
+message SpecifiedPartitions {
+  // specify the partitions
+  // use the value only when is_partition_specified is true
+  repeated string partitions = 1;
+}
+
 message CreateAccountRequest {
   string account_name = 1;
   string owner_user_id = 2;
   // specify the available partitions when creating an account
-  // when the value dose not exist: use all partitions
-  repeated string available_partitions = 3;
+  // when the value is undefined, create account with all partitions
+  // when the value is [], create account with no available partitions
+  optional SpecifiedPartitions available_partitions = 3;
 }
 
 message CreateAccountResponse {
@@ -36,8 +43,8 @@ message CreateAccountResponse {
 message BlockAccountRequest {
   string account_name = 1;
   // when the value exists: block specified partition(s) of the account
-  // when the value dose not exist or is []: block the account in all partitions
-  repeated string available_partitions = 3;
+  // when the value is undefined: block the account in all partitions
+  optional SpecifiedPartitions blocked_partitions = 2;
 }
 
 message BlockAccountResponse {
@@ -46,11 +53,16 @@ message BlockAccountResponse {
 message UnblockAccountRequest {
   string account_name = 1;
   // specify the available partition(s) when executing unblock
-  // when the value dose not exist: use all partitions
-  repeated string available_partitions = 2;
+  // when the value is undefined: use all partitions
+  optional SpecifiedPartitions unblocked_partitions = 2;
 }
 
 message UnblockAccountResponse {
+}
+
+message AccountStatusInPartition {
+  string partition  = 1;
+  bool blocked = 2;
 }
 
 message ClusterAccountInfo {
@@ -63,6 +75,8 @@ message ClusterAccountInfo {
   repeated UserInAccount users = 2;
   optional string owner = 3;
   bool blocked = 4;
+  // the details of account blocked status in every partition
+  repeated AccountStatusInPartition account_blocked_details = 5;
 }
 
 message GetAllAccountsWithUsersRequest {
@@ -76,12 +90,14 @@ message GetAllAccountsWithUsersResponse {
 message QueryAccountBlockStatusRequest {
   string account_name = 1;
   // query in specified partition(s)
-  // when the value does not exist, maintain the original query logic
-  repeated string partitions = 2;
+  // when the value does not exist or [], use all partitions
+  optional SpecifiedPartitions queryed_partitions = 2;
 }
 
 message QueryAccountBlockStatusResponse {
   bool blocked = 1;
+  // the details of account blocked status in every partition
+  repeated AccountStatusInPartition account_blocked_details = 2;
 }
 
 
