@@ -2,4 +2,4 @@
 "@scow/scow-scheduler-adapter-interface": minor
 ---
 
-为实现扩展的资源分区管理增加兼容参数 partitions
+为封锁账户/解封账户/获取账户封锁状态等相关接口增加兼容查询参数 partitions

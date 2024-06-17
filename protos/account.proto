@@ -30,17 +30,11 @@ message CreateAccountRequest {
 message CreateAccountResponse {
 }
 
-message SpecifiedPartitions {
-  // specify the partitions
-  repeated string partitions = 1;
-}
-
 message BlockAccountRequest {
   string account_name = 1;
   // when the value exists: block specified partition(s) of the account
-  // when the value is undefined: block the account in all partitions
-  // when the value is [], return
-  optional SpecifiedPartitions blocked_partitions = 2;
+  // when the value is [] or undefined: block the account in all partitions
+  repeated string blocked_partitions = 2;
 }
 
 message BlockAccountResponse {
@@ -49,9 +43,8 @@ message BlockAccountResponse {
 message UnblockAccountRequest {
   string account_name = 1;
   // specify the available partition(s) when executing unblock
-  // when the value is undefined: use all partitions
-  // when the value is [], return
-  optional SpecifiedPartitions unblocked_partitions = 2;
+  // when the value is [] or undefined: use all partitions
+  repeated string unblocked_partitions = 2;
 }
 
 message UnblockAccountResponse {
@@ -71,6 +64,9 @@ message ClusterAccountInfo {
   string account_name = 1;
   repeated UserInAccount users = 2;
   optional string owner = 3;
+  // return the overall blocked_status in all partitions
+  // false: when the queried account has one or more available partitions
+  // true: when the queried account has no available partitions
   bool blocked = 4;
   // the details of account blocked status in every partition
   repeated AccountStatusInPartition account_blocked_details = 5;
@@ -87,12 +83,14 @@ message GetAllAccountsWithUsersResponse {
 message QueryAccountBlockStatusRequest {
   string account_name = 1;
   // query in specified partition(s)
-  // when the value does not exist, return all partitions blocked details
-  // when the value is [], return BAD_REQUEST
-  optional SpecifiedPartitions queryed_partitions = 2;
+  // when the value is [] or undefined, return all partitions blocked details
+  repeated string queried_partitions = 2;
 }
 
 message QueryAccountBlockStatusResponse {
+  // return the overall blocked_status in all partitions
+  // false: when the queried account has on or more available partitions
+  // true: when the queried account has no available partitions
   bool blocked = 1;
   // the details of account blocked status in every partition
   repeated AccountStatusInPartition account_blocked_details = 2;
@@ -124,9 +122,6 @@ service AccountService {
    * errors: 
    * - account not exist
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
-   * special case:
-   * - account already blocked, don't throw error
-   * - blocked partitions is [], don't throw error
    */
   rpc BlockAccount(BlockAccountRequest) returns (BlockAccountResponse);
 
@@ -135,9 +130,6 @@ service AccountService {
    * errors: 
    * - account not exist
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
-   * special case:
-   * - account already unblocked, don't throw error
-   * - unblocked partitions is [], don't throw error
    */
   rpc UnblockAccount(UnblockAccountRequest) returns (UnblockAccountResponse);
 
@@ -153,8 +145,6 @@ service AccountService {
    * errors: 
    * - account not exist
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
-   * - queryed partitions is not undefined but []
-   *   BAD_REQUEST
    */
   rpc QueryAccountBlockStatus(QueryAccountBlockStatusRequest) returns (QueryAccountBlockStatusResponse);
 
