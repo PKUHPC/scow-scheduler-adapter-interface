@@ -77,6 +77,9 @@ message JobInfo {
   optional  string pod = 27;
   // 应用运行的namespace
   optional  string namespace = 28;
+
+  // gpu卡数请求
+  int32 gpus_req = 29;
 }
 
 
@@ -113,6 +116,9 @@ message GetJobsRequest {
     optional TimeRange submit_time = 4;
     // if set this field, return jobs that ended between the time range(both endpoints included)
     optional TimeRange end_time = 5;
+
+    optional uint32 job_id = 6;
+    optional string job_name = 7;
   }
   // specify filter options
   optional Filter filter = 2;
