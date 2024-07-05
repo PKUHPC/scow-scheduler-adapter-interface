@@ -77,9 +77,7 @@ message JobInfo {
   optional  string pod = 27;
   // 应用运行的namespace
   optional  string namespace = 28;
-
-  // gpu卡数请求
-  int32 gpus_req = 29;
+  
 }
 
 
