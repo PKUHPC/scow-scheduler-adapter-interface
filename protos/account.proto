@@ -96,38 +96,6 @@ message QueryAccountBlockStatusResponse {
   repeated AccountStatusInPartition account_blocked_details = 2;
 }
 
-// message FailedResult {
-//   string failed_account_name = 1;
-//   repeated string failed_partitions = 2;
-//   string failed_reason = 3;
-// }
-
-// message AssignedPartitions {
-//   // when the value exists: excute with specified partition(s) of the account
-//   // when the value is [] or undefined: means all partitions
-//   repeated string assigned_partitions = 1;
-// }
-
-// message BlockAccountsRequest {
-//   map<string, AssignedPartitions> account_partitions_list = 1;
-// }
-
-// message BlockAccountsResponse {
-//   // when the value is [], means all accounts successfully blocked
-//   repeated FailedResult failed_results = 1;
-// }
-
-// message UnblockAccountsRequest {
-//   map<string, AssignedPartitions> account_partitions_list = 1;
-// }
-
-// message UnblockAccountsResponse {
-//   // when the value is [], means all accounts successfully unblocked
-//   repeated FailedResult failed_results = 1;
-// }
-
-
-
 service AccountService {
   
   /**
@@ -180,19 +148,4 @@ service AccountService {
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
    */
   rpc QueryAccountBlockStatus(QueryAccountBlockStatusRequest) returns (QueryAccountBlockStatusResponse);
-
-  // /*
-  //  * description: block accounts at one time
-  //  * special case:
-  //  * - block failed accounts and reasons and partitions return in failed_results
-  //  */
-  // rpc BlockAccounts(BlockAccountsRequest) returns (BlockAccountsResponse);
-
-  // /*
-  //  * description: unblock accounts at one time
-  //  * special case:
-  //  * - unblock failed accounts and partitions reasons return in failed_results
-  //  */
-  // rpc UnblockAccounts(UnblockAccountsRequest) returns (UnblockAccountsResponse);
-
 }

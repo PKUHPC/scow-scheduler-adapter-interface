@@ -86,6 +86,29 @@ message GetClusterInfoResponse {
   repeated PartitionInfo partitions = 2;
 }
 
+message GetClusterNodesInfoRequest {
+    repeated string nodes = 1;
+}
+
+message GetClusterNodesInfoResponse {
+    repeated NodeInfo nodes = 1;
+}
+
+message NodeInfo {
+    string node_name = 1;
+    repeated string partition = 2;
+    string state = 3;
+    unit32 cpu_core_counts = 4;
+    unit32 alloc_cpu_core_counts = 5;
+    unit32 idle_cpu_core_counts = 6;
+    unit32 total_mem = 7;
+    unit32 alloc_mem = 8;
+    unit32 idle_mem = 9;
+    unit32 gpu_counts = 10;
+    unit32 alloc_gpu_counts = 11;
+    unit32 idle_gpu_counts = 12;
+} 
+
 service ConfigService {
   /*
    * description: get cluster config
@@ -99,4 +122,8 @@ service ConfigService {
    * description: get cluster information
    */
   rpc GetClusterInfo(GetClusterInfoRequest) returns (GetClusterInfoResponse);
+   /*
+   * description: get cluster nodes information
+   */
+  rpc GetClusterNodesInfo(GetClusterNodesInfoResponse ) returns (GetClusterNodesInfoResponse);
 }
