@@ -33,6 +33,10 @@ message Partition {
   repeated string qos = 6;
   // price item description
   optional string comment = 7;
+  // gpu_type: gpu type
+  optional string gpu_type = 8;
+  // vram: vram size in M
+  optional uint64 vram_mb = 9;
 }
 
 message GetClusterConfigResponse {
