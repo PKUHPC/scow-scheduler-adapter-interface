@@ -68,15 +68,6 @@ message JobInfo {
   // the number of nodes used by job
   optional int32 nodes_alloc = 23;
   optional google.protobuf.Timestamp end_time = 24;
-
-  // 应用运行的节点
-  optional string node = 25;
-  // 应用运行的容器ID
-  optional  string container_id = 26;
-  // 应用运行的pod
-  optional  string pod = 27;
-  // 应用运行的namespace
-  optional  string namespace = 28;
 }
 
 
@@ -123,6 +114,9 @@ message GetJobsRequest {
 
   // returned jobs should be sorted if set
   optional SortInfo sort = 4;
+
+  optional uint32 job_id = 6;
+  optional string job_name = 7;
 }
 
 message GetJobsResponse {
