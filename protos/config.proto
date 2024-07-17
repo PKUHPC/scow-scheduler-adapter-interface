@@ -90,19 +90,20 @@ message NodeInfo {
   string node_name = 1;
   repeated string partitions = 2;
   string state = 3;
-  uint32 cpu_core_counts = 4;
-  uint32 alloc_cpu_core_counts = 5;
-  uint32 idle_cpu_core_counts = 6;
-  uint32 total_mem = 7;
-  uint32 alloc_mem = 8;
-  uint32 idle_mem = 9;
-  uint32 gpu_counts = 10;
-  uint32 alloc_gpu_counts = 11;
-  uint32 idle_gpu_counts = 12;
+  uint32 cpu_core_count = 4;
+  uint32 alloc_cpu_core_count = 5;
+  uint32 idle_cpu_core_count = 6;
+  uint32 total_mem_mb = 7;
+  uint32 alloc_mem_mb = 8;
+  uint32 idle_mem_mb = 9;
+  uint32 gpu_count = 10;
+  uint32 alloc_gpu_count = 11;
+  uint32 idle_gpu_count = 12;
 } 
 
 message GetClusterNodesInfoRequest {
-  repeated string nodes = 1;
+  // if the value of node_names = [], request all nodes info
+  repeated string node_names = 1;
 }
 
 message GetClusterNodesInfoResponse {
