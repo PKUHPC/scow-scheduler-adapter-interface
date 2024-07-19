@@ -33,7 +33,9 @@ message Partition {
   repeated string qos = 6;
   // price item description
   optional string comment = 7;
-  // gpu_type: gpu type
+  // gpu_type: 目前可能的值为 "nvidia" 、 "huawei.com/Ascend910"
+  // AI在gpu分区用gpu训练时必填gpu_type 
+  // 华为的gpu卡支持特殊的框架 mindspore
   optional string gpu_type = 8;
   // vram: vram size in M
   optional uint64 vram_mb = 9;
