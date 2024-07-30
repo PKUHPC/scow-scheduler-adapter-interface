@@ -87,9 +87,17 @@ message GetClusterInfoResponse {
 }
 
 message NodeInfo {
+  
+  enum NodeState {
+    UNKNOWN = 0;
+    IDLE = 1;
+    RUNNING = 2;
+    NOT_AVAILABLE = 3;
+  }
+
   string node_name = 1;
   repeated string partitions = 2;
-  string state = 3;
+  NodeState state = 3;
   uint32 cpu_core_count = 4;
   uint32 alloc_cpu_core_count = 5;
   uint32 idle_cpu_core_count = 6;
