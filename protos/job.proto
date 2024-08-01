@@ -104,6 +104,9 @@ message GetJobsRequest {
     optional TimeRange submit_time = 4;
     // if set this field, return jobs that ended between the time range(both endpoints included)
     optional TimeRange end_time = 5;
+
+    optional uint32 job_id = 6;
+    optional string job_name = 7;
   }
   // specify filter options
   optional Filter filter = 2;
@@ -114,6 +117,7 @@ message GetJobsRequest {
 
   // returned jobs should be sorted if set
   optional SortInfo sort = 4;
+
 }
 
 message GetJobsResponse {

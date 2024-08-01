@@ -42,4 +42,5 @@ service AppService {
    *   Sometimes it needs to provide password for app
    */
   rpc GetAppConnectionInfo(GetAppConnectionInfoRequest) returns (GetAppConnectionInfoResponse);
+
 }
