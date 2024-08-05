@@ -190,6 +190,10 @@ message SubmitJobRequest {
   optional string stderr = 14;
   // extra options when submitting job
   repeated string extra_options = 15;
+  // NVIDIA 的 TensorFlow 框架训练特有的 parameter server 数 
+  optional uint32 ps_node_count = 16;
+  // NVIDIA 的 TensorFlow 框架训练特有的 worker 数 
+  optional uint32 worker_node_count = 17;
 }
 
 message SubmitJobResponse {
