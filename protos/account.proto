@@ -133,7 +133,7 @@ service AccountService {
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
    */
   rpc QueryAccountBlockStatus(QueryAccountBlockStatusRequest) returns (QueryAccountBlockStatusResponse);
-
+  
    /*
    * description: delete account
    * errors:
