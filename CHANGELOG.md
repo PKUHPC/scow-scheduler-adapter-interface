@@ -1,5 +1,15 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.7.0
+
+### Minor Changes
+
+- 94fd762: 增加 ConfigService.ListImplementedOptionalFeatures RPC，用于获取适配器实现的可选功能
+
+### Patch Changes
+
+- f3defc7: 新增 deleteUser 和 deleteAccount 接口
+
 ## 1.6.0
 
 ### Minor Changes
