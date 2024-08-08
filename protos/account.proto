@@ -89,7 +89,7 @@ message DeleteAccountRequest {
 message DeleteAccountResponse {
 }
 
-// ********** Below is the interfaces for optional feature: resource management ***************
+// ********** Below is the interfaces for optional feature: RESOURCE_MANAGEMENT ***************
 message BlockAccountWithPartitionsRequest {
   string account_name = 1;
   // when the value exists: block specified partition(s) of the account
@@ -151,7 +151,7 @@ message GetAllAccountsWithUsersAndBlockedDetailsResponse {
   repeated ClusterAccountInfoWithBlockedDetails accounts = 1;
 }
 
-// ********** Above is the interfaces for optional feature: resource management ***************
+// ********** Above is the interfaces for optional feature: RESOURCE_MANAGEMENT ***************
 
 
 service AccountService {
@@ -218,9 +218,9 @@ service AccountService {
    rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse);
 
 
-   // ********** Below is the rpcs for optional feature: resource management ***************
+   // ********** Below is the rpcs for optional feature: RESOURCE_MANAGEMENT ***************
   /*  
-   * FOR OPTIOANL FEATURE: RESOURCE MANAGEMENT
+   * FOR OPTIOANL FEATURE: RESOURCE_MANAGEMENT
    * description: block an account with specified partitions
    * errors: 
    * - account not exist
@@ -230,7 +230,7 @@ service AccountService {
    */
    rpc BlockAccountWithPartitions(BlockAccountWithPartitionsRequest) returns (BlockAccountWithPartitionsResponse);
   /*
-   * FOR OPTIOANL FEATURE: RESOURCE MANAGEMENT
+   * FOR OPTIOANL FEATURE: RESOURCE_MANAGEMENT
    * description: unblock an account with specified partitions
    * errors: 
    * - account not exist
@@ -240,7 +240,7 @@ service AccountService {
    */
    rpc UnblockAccountWithPartitions(UnblockAccountWithPartitionsRequest) returns (UnblockAccountWithPartitionsResponse);
   /*
-   * FOR OPTIOANL FEATURE: RESOURCE MANAGEMENT
+   * FOR OPTIOANL FEATURE: RESOURCE_MANAGEMENT
    * description: query if an account is blocked with specified partitions
    * errors: 
    * - account not exist
@@ -248,11 +248,11 @@ service AccountService {
    */
    rpc QueryAccountBlockStatusWithPartitions(QueryAccountBlockStatusWithPartitionsRequest) returns (QueryAccountBlockStatusWithPartitionsResponse);
   /*
-   * FOR OPTIOANL FEATURE: RESOURCE MANAGEMENT
+   * FOR OPTIOANL FEATURE: RESOURCE_MANAGEMENT
    * description: get all accounts with blocked partitions' detail and all associated users 
    * special case:
    * - account no users, exclude this account
    */
    rpc GetAllAccountsWithUsersAndBlockedDetails(GetAllAccountsWithUsersAndBlockedDetailsRequest) returns (GetAllAccountsWithUsersAndBlockedDetailsResponse);
-   // ********** Above is the interfaces for optional feature: resource management ***************
+   // ********** Above is the interfaces for optional feature: RESOURCE_MANAGEMENT ***************
 }
