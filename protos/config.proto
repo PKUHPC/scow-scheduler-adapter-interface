@@ -122,6 +122,7 @@ message ListImplementedOptionalFeaturesRequest {}
 
 enum OptionalFeatures {
   UNKNOWN = 0;
+  RESOURCE_MANAGEMENT = 1;
 }
 
 message ListImplementedOptionalFeaturesResponse {

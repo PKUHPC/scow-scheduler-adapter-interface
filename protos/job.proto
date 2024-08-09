@@ -117,7 +117,6 @@ message GetJobsRequest {
 
   // returned jobs should be sorted if set
   optional SortInfo sort = 4;
-
 }
 
 message GetJobsResponse {
