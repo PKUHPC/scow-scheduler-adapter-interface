@@ -84,7 +84,8 @@ message GetClusterInfoRequest {
 message GetClusterInfoResponse {
   string cluster_name = 1;
   repeated PartitionInfo partitions = 2;
-  // 3-17 Newly added parameters may not be returned
+  // 3-17 Newly added parameters
+  // only returns in version later than 1.7.0
   uint32 node_count = 3;
   uint32 running_node_count = 4;
   uint32 idle_node_count = 5;

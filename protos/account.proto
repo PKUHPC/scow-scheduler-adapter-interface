@@ -74,19 +74,19 @@ message AccountStatusInPartition {
 }
 
 message QueryAccountBlockStatusResponse {
-  // In versions 1.6.0 and earlier:
+  // In versions 1.7.0 and earlier:
   // - The account's status is uniformly consistent across all partitions by default.
   // - false: The queried account is unblocked in all partitions.
   // - true: The queried account has no available partitions.
 
-  // In versions later than 1.6.0:
+  // In versions later than 1.7.0:
   // - The field "blocked" represents whether the account is completely blocked across all partitions:
   // - true: The account is fully blocked in all partitions.
   // - false: The account has one or more partitions where it is not blocked.
   bool blocked = 1;
 
   // the details of account blocked status in every partition
-  // only returns in version later than 1.6.0
+  // only returns in version later than 1.7.0
   repeated AccountStatusInPartition account_blocked_details = 2;
 }
 
@@ -213,10 +213,10 @@ service AccountService {
   /*
    * description: query if an account is blocked
    * Version differences:
-   * - In versions 1.6.0 and earlier:
+   * - In versions 1.7.0 and earlier:
    * - The response's 'blocked' field indicates a uniform status across all partitions.
    * - The 'account_blocked_details' field is not returned.
-   * - In versions after 1.6.0:
+   * - In versions after 1.7.0:
    * - The 'blocked' field indicates whether the account is completely blocked across all partitions.
    * - The 'account_blocked_details' field provides detailed status information for each partition.
    * errors: 
