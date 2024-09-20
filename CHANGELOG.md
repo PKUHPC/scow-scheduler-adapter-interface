@@ -1,5 +1,17 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.8.0
+
+### Minor Changes
+
+- 85099ce: 在 QueryAccountBlockStatus 的 Response 中变更 blocked 的注释，增加 account_blocked_details
+  在 ListImplementedOptionalFeatures 中增加可选功能枚举值
+  在 account.proto 中增加可选功能 rpc 接口
+
+### Patch Changes
+
+- 24c4889: 在 GetClusterInfoResponse 中增加集群节点信息，作业信息等内容优化查询效率
+
 ## 1.7.0
 
 ### Minor Changes
