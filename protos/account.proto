@@ -169,7 +169,9 @@ message SyncAccountInfo {
 }
 
 message SyncAccountUserInfoRequest {
-  repeated SyncAccountInfo sync_accounts = 1;
+  // session id during one same data sync operation
+  uint64 session_id = 1;
+  repeated SyncAccountInfo sync_accounts = 2;
 }
 
 enum FailedOperation {
@@ -191,6 +193,7 @@ message FailedInfo {
 }
 
 message SyncUserAccountInfoResponse {
+  // only returns when failed info exists
   repeated FailedInfo failed_infos = 1;
 }
 
