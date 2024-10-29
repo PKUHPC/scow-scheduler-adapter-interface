@@ -44,12 +44,13 @@ message UnblockAccountRequest {
 message UnblockAccountResponse {
 }
 
+message UserInAccount {
+  string user_id = 1;
+  string user_name = 2;
+  bool blocked = 3;
+}
+
 message ClusterAccountInfo {
-  message UserInAccount {
-    string user_id = 1;
-    string user_name = 2;
-    bool blocked = 3;
-  }
   string account_name = 1;
   repeated UserInAccount users = 2;
   optional string owner = 3;
@@ -137,11 +138,6 @@ message QueryAccountBlockStatusWithPartitionsResponse {
 }
 
 message ClusterAccountInfoWithBlockedDetails {
-  message UserInAccount {
-    string user_id = 1;
-    string user_name = 2;
-    bool blocked = 3;
-  }
   string account_name = 1;
   repeated UserInAccount users = 2;
   optional string owner = 3;
@@ -162,6 +158,41 @@ message GetAllAccountsWithUsersAndBlockedDetailsResponse {
 }
 // ********** Above is the interfaces for optional feature: RESOURCE_MANAGEMENT ***************
 
+message SyncAccountInfo {
+  string account_name = 1;
+  repeated UserInAccount users = 2;
+  optional string owner = 3;
+  bool blocked_in_cluster = 4;
+  // if blocked_in_cluster is true, the value is []
+  // if blocked_in_cluster is false, only unblock in specified paritions
+  repeated string unblocked_partitions = 5;
+}
+
+message SyncAccountUserInfoRequest {
+  repeated SyncAccountInfo sync_accounts = 1;
+}
+
+enum FailedOperation {
+  CREATE_ACCOUNT = 0;
+  BLOCK_ACCOUNT = 1;
+  UNBLOCK_ACCOUNT = 2;
+  ADD_USER_TO_ACCOUNT = 3;
+  BLOCK_USER_IN_ACCOUNT = 4;
+  REMOVE_USER_FROM_ACCOUNT = 5;
+}
+
+message FailedInfo {
+  bool executed = 1;
+  FailedOperation failed_operation = 2;
+  string account_name = 3;
+  // value only exsits in users' operation of ADD_USER_TO_ACCOUNT, BLOCK_USER_IN_ACCOUNT or REMOVE_USER_FROM_ACCOUNT
+  optional string user_id = 4;
+  string failed_info_str = 5;
+}
+
+message SyncUserAccountInfoResponse {
+  repeated FailedInfo failed_infos = 1;
+}
 
 service AccountService {
   
@@ -271,4 +302,7 @@ service AccountService {
    */
    rpc GetAllAccountsWithUsersAndBlockedDetails(GetAllAccountsWithUsersAndBlockedDetailsRequest) returns (GetAllAccountsWithUsersAndBlockedDetailsResponse);
    // ********** Above is the interfaces for optional feature: RESOURCE_MANAGEMENT ***************
+
+   // sync accounts and related users
+   rpc SyncAccountUserInfo(SyncAccountUserInfoRequest) returns (SyncUserAccountInfoResponse);
 }
