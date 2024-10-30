@@ -192,7 +192,7 @@ message FailedInfo {
   string failed_info_str = 5;
 }
 
-message SyncUserAccountInfoResponse {
+message SyncAccountUserInfoResponse {
   // only returns when failed info exists
   repeated FailedInfo failed_infos = 1;
 }
@@ -307,5 +307,5 @@ service AccountService {
    // ********** Above is the interfaces for optional feature: RESOURCE_MANAGEMENT ***************
 
    // sync accounts and related users
-   rpc SyncAccountUserInfo(SyncAccountUserInfoRequest) returns (SyncUserAccountInfoResponse);
+   rpc SyncAccountUserInfo(SyncAccountUserInfoRequest) returns (SyncAccountUserInfoResponse);
 }
