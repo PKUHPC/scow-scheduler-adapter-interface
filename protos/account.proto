@@ -44,13 +44,12 @@ message UnblockAccountRequest {
 message UnblockAccountResponse {
 }
 
-message UserInAccount {
-  string user_id = 1;
-  string user_name = 2;
-  bool blocked = 3;
-}
-
 message ClusterAccountInfo {
+  message UserInAccount {
+    string user_id = 1;
+    string user_name = 2;
+    bool blocked = 3;
+  }
   string account_name = 1;
   repeated UserInAccount users = 2;
   optional string owner = 3;
@@ -138,6 +137,11 @@ message QueryAccountBlockStatusWithPartitionsResponse {
 }
 
 message ClusterAccountInfoWithBlockedDetails {
+  message UserInAccount {
+    string user_id = 1;
+    string user_name = 2;
+    bool blocked = 3;
+  }
   string account_name = 1;
   repeated UserInAccount users = 2;
   optional string owner = 3;
@@ -158,10 +162,15 @@ message GetAllAccountsWithUsersAndBlockedDetailsResponse {
 }
 // ********** Above is the interfaces for optional feature: RESOURCE_MANAGEMENT ***************
 
+
 message SyncAccountInfo {
+  message UserInAccount {
+    string user_id = 1;
+    bool blocked = 2;
+  }
   string account_name = 1;
   repeated UserInAccount users = 2;
-  optional string owner = 3;
+  optional string owner_id = 3;
   bool blocked_in_cluster = 4;
   // if blocked_in_cluster is true, the value is []
   // if blocked_in_cluster is false, only unblock in specified paritions
@@ -170,31 +179,31 @@ message SyncAccountInfo {
 
 message SyncAccountUserInfoRequest {
   // session id during one same data sync operation
+  // the scheduler can only process the same data once with the same session_id.
   uint64 session_id = 1;
   repeated SyncAccountInfo sync_accounts = 2;
 }
 
-enum FailedOperation {
-  CREATE_ACCOUNT = 0;
-  BLOCK_ACCOUNT = 1;
-  UNBLOCK_ACCOUNT = 2;
-  ADD_USER_TO_ACCOUNT = 3;
-  BLOCK_USER_IN_ACCOUNT = 4;
-  REMOVE_USER_FROM_ACCOUNT = 5;
-}
-
-message FailedInfo {
-  bool executed = 1;
-  FailedOperation failed_operation = 2;
-  string account_name = 3;
-  // value only exsits in users' operation of ADD_USER_TO_ACCOUNT, BLOCK_USER_IN_ACCOUNT or REMOVE_USER_FROM_ACCOUNT
-  optional string user_id = 4;
-  string failed_info_str = 5;
+enum SyncOperation {
+  UNKNOWN = 0,
+  CREATE_ACCOUNT = 1;
+  BLOCK_ACCOUNT = 2;
+  UNBLOCK_ACCOUNT = 3;
+  ADD_USER_TO_ACCOUNT = 4;
+  BLOCK_USER_IN_ACCOUNT = 5;
+  REMOVE_USER_FROM_ACCOUNT = 6;
 }
 
 message SyncAccountUserInfoResponse {
-  // only returns when failed info exists
-  repeated FailedInfo failed_infos = 1;
+  message FailureInfo {
+    SyncOperation sync_operation = 1;
+    string failed_account_name = 2;
+    // only exsits in users' failed operation of ADD_USER_TO_ACCOUNT, BLOCK_USER_IN_ACCOUNT or REMOVE_USER_FROM_ACCOUNT
+    optional string failed_user_id = 3;
+    string failed_info_message = 4;
+  }
+  // only returns when failure info exists
+  repeated FailureInfo failure_info = 1;
 }
 
 service AccountService {
