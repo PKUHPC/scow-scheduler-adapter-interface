@@ -180,7 +180,7 @@ message SyncAccountInfo {
 message SyncAccountUserInfoRequest {
   // session id during one same data sync operation
   // the scheduler can only process the same data once with the same session_id.
-  uint64 session_id = 1;
+  string session_id = 1;
   repeated SyncAccountInfo sync_accounts = 2;
 }
 
