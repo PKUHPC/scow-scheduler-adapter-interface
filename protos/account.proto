@@ -172,9 +172,10 @@ message SyncAccountInfo {
   repeated UserInAccount users = 2;
   optional string owner_id = 3;
   bool blocked_in_cluster = 4;
+  optional uint32 whitelist_id = 5;
   // if blocked_in_cluster is true, the value is []
   // if blocked_in_cluster is false, only unblock in specified paritions
-  repeated string unblocked_partitions = 5;
+  repeated string unblocked_partitions = 6;
 }
 
 message SyncAccountUserInfoRequest {
