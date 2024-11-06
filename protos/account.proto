@@ -176,6 +176,7 @@ message SyncAccountInfo {
   // if blocked_in_cluster is true, the value is []
   // if blocked_in_cluster is false, only unblock in specified paritions
   repeated string unblocked_partitions = 6;
+  optional bool use_full_partitions = 7;
 }
 
 message SyncAccountUserInfoRequest {
