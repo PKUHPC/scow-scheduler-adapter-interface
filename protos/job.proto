@@ -201,6 +201,36 @@ message SubmitJobResponse {
   string generated_script = 2;
 }
 
+message SubmitInferJobRequest {
+  string user_id = 1;
+  string job_name = 2;
+  string account = 3;
+  // if not set, use a default partition
+  string partition = 4;
+  optional string qos = 5;
+  uint32 node_count = 6;
+  uint32 gpu_count = 7;
+  // if not set, use default memory size
+  optional uint64 memory_mb = 8;
+  uint32 core_count = 9;
+  optional uint32 time_limit_minutes = 10;
+  string script = 11;
+  string working_directory = 12;
+  // relative to working directory
+  optional string stdout = 13;
+  // relative to working directory
+  optional string stderr = 14;
+  // extra options when submitting job
+  repeated string extra_options = 15;
+  // 容器中暴露的服务端口
+  string container_service_port = 16;
+}
+
+message SubmitInferJobResponse {
+  uint32 job_id = 1;
+}
+
+
 message CancelJobRequest {
   string user_id = 1;
   int32 job_id = 2;
@@ -287,5 +317,17 @@ service JobService {
    *   NOT_FOUND, USER_NOT_FOUND, {}
    */
   rpc SubmitScriptAsJob(SubmitScriptAsJobRequest) returns (SubmitScriptAsJobResponse);
+
+   /*
+   * description: submit infer job 
+   * errors: 
+   * - sbatch failed
+   *   UNKNOWN, SBATCH_FAILED, {
+   *     reason: string
+   *   }
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {}
+   */
+  rpc SubmitInferJob(SubmitInferJobRequest) returns (SubmitInferJobResponse);
 
 }
