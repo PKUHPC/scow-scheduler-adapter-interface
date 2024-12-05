@@ -167,6 +167,7 @@ message SyncAccountInfo {
   message UserInAccount {
     string user_id = 1;
     bool blocked = 2;
+    optional bool deleted = 3;
   }
   string account_name = 1;
   repeated UserInAccount users = 2;
@@ -177,6 +178,7 @@ message SyncAccountInfo {
   // if blocked_in_cluster is false, only unblock in specified paritions
   repeated string unblocked_partitions = 6;
   optional bool use_full_partitions = 7;
+  optional bool deleted = 8;
 }
 
 message SyncAccountUserInfoRequest {
@@ -195,11 +197,14 @@ message SyncAccountUserInfoResponse {
     ADD_USER_TO_ACCOUNT = 4;
     BLOCK_USER_IN_ACCOUNT = 5;
     REMOVE_USER_FROM_ACCOUNT = 6;
+    UNBLOCK_USER_IN_ACCOUNT = 7;
+    DELETE_ACCOUNT = 8;
+    DELETE_USER = 9;s
   }
   message FailureInfo {
     SyncOperation sync_operation = 1;
     string failed_account_name = 2;
-    // only exsits in users' failed operation of ADD_USER_TO_ACCOUNT, BLOCK_USER_IN_ACCOUNT or REMOVE_USER_FROM_ACCOUNT
+    // only exists in users' failed operation of ADD_USER_TO_ACCOUNT, BLOCK_USER_IN_ACCOUNT or REMOVE_USER_FROM_ACCOUNT
     optional string failed_user_id = 3;
     string failed_message = 4;
   }
