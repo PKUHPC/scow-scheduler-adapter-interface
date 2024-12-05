@@ -199,7 +199,7 @@ message SyncAccountUserInfoResponse {
     REMOVE_USER_FROM_ACCOUNT = 6;
     UNBLOCK_USER_IN_ACCOUNT = 7;
     DELETE_ACCOUNT = 8;
-    DELETE_USER = 9;s
+    DELETE_USER = 9;
   }
   message FailureInfo {
     SyncOperation sync_operation = 1;
