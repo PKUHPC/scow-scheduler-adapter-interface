@@ -229,21 +229,25 @@ message DeleteUserOperation {
   string user_id = 1;
 }
 
+message SyncOperationData {
+  oneof operation {
+    CreateAccountOperation create_account = 1;
+    BlockAccountOperation block_account = 2;
+    UnblockAccountOperation unblock_account = 3;
+    AddUserToAccountOperation add_user_to_account = 4;
+    RemoveUserFromAccountOperation remove_user_from_account = 5;
+    BlockUserInAccountOperation block_user_in_account = 6;
+    UnblockUserInAccountOperation unblock_user_in_account = 7;
+    DeleteAccountOperation delete_account = 8;
+    DeleteUserOperation delete_user = 9;
+  }
+}
+
 message SyncAccountUserInfoResponse {
   message SyncOperationResult {
-    oneof operation {
-      CreateAccountOperation create_account = 1;
-      BlockAccountOperation block_account = 2;
-      UnblockAccountOperation unblock_account = 3;
-      AddUserToAccountOperation add_user_to_account = 4;
-      RemoveUserFromAccountOperation remove_user_from_account = 5;
-      BlockUserInAccountOperation block_user_in_account = 6;
-      UnblockUserInAccountOperation unblock_user_in_account = 7;
-      DeleteAccountOperation delete_account = 8;
-      DeleteUserOperation delete_user = 9;
-    }
-    bool success = 1;
-    optional string failure_info = 2;
+    SyncOperationData sync_operation_data = 1;
+    bool success = 2;
+    optional string failure_message = 3;
   }
   repeated SyncOperationResult sync_results = 1;
 }
