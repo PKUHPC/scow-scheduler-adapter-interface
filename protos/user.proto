@@ -123,5 +123,5 @@ service UserService {
    * - user not exist
    *   NOT_FOUND, USER_NOT_FOUND, {}
    */
-   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
 }

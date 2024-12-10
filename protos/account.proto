@@ -140,5 +140,5 @@ service AccountService {
    * - account not exist
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
    */
-   rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse);
+  rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse);
 }
