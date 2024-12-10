@@ -188,62 +188,53 @@ message SyncAccountUserInfoRequest {
   repeated SyncAccountInfo sync_accounts = 2;
 }
 
-
-message CreateAccountOperation {
-  string account_name = 1;
-}
-
-message BlockAccountOperation {
-  string account_name = 1;
-}
-
-message UnblockAccountOperation {
-  string account_name = 1;
-}
-
-message AddUserToAccountOperation {
-  string account_name = 1;
-  string user_id = 2;
-}
-
-message RemoveUserFromAccountOperation {
-  string account_name = 1;
-  string user_id = 2;
-}
-
-message BlockUserInAccountOperation {
-  string account_name = 1;
-  string user_id = 2;
-}
-
-message UnblockUserInAccountOperation {
-  string account_name = 1;
-  string user_id = 2;
-}
-
-message DeleteAccountOperation {
-  string account_name = 1;
-}
-
-message DeleteUserOperation {
-  string user_id = 1;
-}
-
-message SyncOperationData {
-  oneof operation {
-    CreateAccountOperation create_account = 1;
-    BlockAccountOperation block_account = 2;
-    UnblockAccountOperation unblock_account = 3;
-    AddUserToAccountOperation add_user_to_account = 4;
-    RemoveUserFromAccountOperation remove_user_from_account = 5;
-    BlockUserInAccountOperation block_user_in_account = 6;
-    UnblockUserInAccountOperation unblock_user_in_account = 7;
-    DeleteAccountOperation delete_account = 8;
-    DeleteUserOperation delete_user = 9;
-  }
-}
-
 message SyncAccountUserInfoResponse {
+  
+  message CreateAccountOperation {
+    string account_name = 1;
+  }
+  message BlockAccountOperation {
+    string account_name = 1;
+  }
+  message UnblockAccountOperation {
+    string account_name = 1;
+  }
+  message AddUserToAccountOperation {
+    string account_name = 1;
+    string user_id = 2;
+  }
+  message RemoveUserFromAccountOperation {
+    string account_name = 1;
+    string user_id = 2;
+  }
+  message BlockUserInAccountOperation {
+    string account_name = 1;
+    string user_id = 2;
+  }
+  message UnblockUserInAccountOperation {
+    string account_name = 1;
+    string user_id = 2;
+  }
+  message DeleteAccountOperation {
+    string account_name = 1;
+  }
+  message DeleteUserOperation {
+    string user_id = 1;
+  }
+
+  message SyncOperationData {
+    oneof operation {
+      CreateAccountOperation create_account = 1;
+      BlockAccountOperation block_account = 2;
+      UnblockAccountOperation unblock_account = 3;
+      AddUserToAccountOperation add_user_to_account = 4;
+      RemoveUserFromAccountOperation remove_user_from_account = 5;
+      BlockUserInAccountOperation block_user_in_account = 6;
+      UnblockUserInAccountOperation unblock_user_in_account = 7;
+      DeleteAccountOperation delete_account = 8;
+      DeleteUserOperation delete_user = 9;
+    }
+  }
   message SyncOperationResult {
     SyncOperationData sync_operation_data = 1;
     bool success = 2;
