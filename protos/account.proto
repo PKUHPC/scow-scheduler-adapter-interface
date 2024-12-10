@@ -174,10 +174,16 @@ message SyncAccountInfo {
   optional string owner_id = 3;
   bool blocked_in_cluster = 4;
   optional uint32 whitelist_id = 5;
-  // if blocked_in_cluster is true, the value is []
-  // if blocked_in_cluster is false, only unblock in specified paritions
-  repeated string unblocked_partitions = 6;
-  optional bool use_full_partitions = 7;
+
+  message AssignedPartitions {
+    repeated string partitions = 1;
+  }
+  // use assigned partitions or all partitions
+  oneof unblocked_partitions {
+    AssignedPartitions assigned_partitions = 6;
+    bool use_all_partitions = 7;
+  }
+
   optional bool deleted = 8;
 }
 
@@ -222,8 +228,8 @@ message SyncAccountUserInfoResponse {
     string user_id = 1;
   }
 
-  message SyncOperationData {
-    oneof operation {
+  message SyncOperationResult {
+    oneof sync_operation {
       CreateAccountOperation create_account = 1;
       BlockAccountOperation block_account = 2;
       UnblockAccountOperation unblock_account = 3;
@@ -234,11 +240,9 @@ message SyncAccountUserInfoResponse {
       DeleteAccountOperation delete_account = 8;
       DeleteUserOperation delete_user = 9;
     }
-  }
-  message SyncOperationResult {
-    SyncOperationData sync_operation_data = 1;
-    bool success = 2;
-    optional string failure_message = 3;
+    bool success = 10;
+    // if success = false, return the failure message
+    optional string failure_message = 11;
   }
   repeated SyncOperationResult sync_results = 1;
 }
