@@ -223,7 +223,7 @@ message SubmitInferJobRequest {
   // extra options when submitting job
   repeated string extra_options = 15;
   // 容器中暴露的服务端口
-  string container_service_port = 16;
+  uint32 container_service_port = 16;
   // NVIDIA 的 TensorFlow 框架训练特有的 parameter server 数 
   optional uint32 ps_node_count = 17;
   // NVIDIA 的 TensorFlow 框架训练特有的 worker 数 
