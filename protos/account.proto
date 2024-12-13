@@ -72,6 +72,13 @@ message QueryAccountBlockStatusResponse {
   bool blocked = 1;
 }
 
+message DeleteAccountRequest {
+  string account_name = 1;
+}
+
+message DeleteAccountResponse {
+}
+
 service AccountService {
   
   /**
@@ -126,4 +133,12 @@ service AccountService {
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
    */
   rpc QueryAccountBlockStatus(QueryAccountBlockStatusRequest) returns (QueryAccountBlockStatusResponse);
+
+  /*
+   * description: delete account
+   * errors:
+   * - account not exist
+   *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   */
+  rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse);
 }

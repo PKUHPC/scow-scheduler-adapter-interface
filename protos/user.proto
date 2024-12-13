@@ -55,6 +55,13 @@ message QueryUserInAccountBlockStatusResponse {
   bool blocked = 1;
 }
 
+message DeleteUserRequest {
+  string user_id = 1;
+}
+
+message DeleteUserResponse {
+}
+
 service UserService {
   /*
    * description: add user to account
@@ -109,4 +116,12 @@ service UserService {
    *   NOT_FOUND, USER_ACCOUNT_NOT_FOUND, {} 
    */
   rpc QueryUserInAccountBlockStatus(QueryUserInAccountBlockStatusRequest) returns (QueryUserInAccountBlockStatusResponse);
+  
+    /*
+   * description: delete user
+   * errors: 
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {}
+   */
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
 }
