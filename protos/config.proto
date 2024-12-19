@@ -135,6 +135,29 @@ message GetClusterNodesInfoResponse {
   repeated NodeInfo nodes = 1;
 }
 
+message MigrateNodeInfo {
+
+  enum NodeState {
+    UNKNOWN = 0;
+    MIGRATABLE = 1;
+    NOT_MIGRATABLE = 2;
+  }
+
+  string node_name = 1;
+  repeated string partitions = 2;
+  NodeState state = 3;
+  string cluster_name = 4;
+  repeated string migratable_clusters = 5;
+}
+
+message GetClusterMigrateNodesInfoRequest {
+
+}
+
+message GetClusterMigrateNodesInfoResponse {
+  repeated MigrateNodeInfo nodes = 1;
+}
+
 message ListImplementedOptionalFeaturesRequest {}
 
 enum OptionalFeatures {
@@ -163,6 +186,10 @@ service ConfigService {
    * description: get cluster nodes information
    */
   rpc GetClusterNodesInfo(GetClusterNodesInfoRequest) returns (GetClusterNodesInfoResponse);
+  /*
+  * description: get cluster migrate nodes information
+  */
+  rpc GetClusterMigrateNodesInfo(GetClusterMigrateNodesInfoRequest) returns (GetClusterMigrateNodesInfoResponse);
   /*
    * description: List optional features implemented by this scheduler adapter
    */
