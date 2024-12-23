@@ -1,0 +1,36 @@
+/**
+   * Copyright (c) 2022 Peking University and Peking University Institute for Computing and Digital Economy
+   * SCOW is licensed under Mulan PSL v2.
+   * You can use this software according to the terms and conditions of the Mulan PSL v2.
+   * You may obtain a copy of Mulan PSL v2 at:
+   *          http://license.coscl.org.cn/MulanPSL2
+   * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+   * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+   * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+   * See the Mulan PSL v2 for more details.
+*/
+
+syntax = "proto3";
+
+package scow.scheduler_adapter;
+
+message MigrateNodeRequest {
+  string node_name = 1;
+  repeated string destination_partitions = 3;
+  string origin_cluster_name = 4;
+  string destination_cluster_name = 5;
+}
+
+message MigrateNodeResponse {
+
+}
+
+service NodeService {
+  /*
+   * description: migrate node
+   * errors:
+   * - node not found
+   *   NOT_FOUND, NODE_NOT_FOUND, {}
+   */
+  rpc MigrateNode(MigrateNodeRequest) returns (MigrateNodeResponse);
+}
