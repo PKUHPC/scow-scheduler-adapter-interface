@@ -1,6 +1,6 @@
 {
   "name": "@scow/scow-scheduler-adapter-interface",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Interface for SCOW to call schedulers",
   "author": "PKUHPC (https://github.com/PKUHPC)",
   "repository": "https://github.com/PKUHPC/SCOW",
