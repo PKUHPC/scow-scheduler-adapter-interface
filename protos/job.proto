@@ -17,14 +17,14 @@ package scow.scheduler_adapter;
 import "google/protobuf/timestamp.proto";
 
 message EventTable {
-    optional string obj_name = 1;
-    optional string obj_namespace = 2;
-    string obj_kind = 3;
-    string type = 4;
-    string message = 5;
-    string reason = 6;
-    string reporting_component = 7;
-    optional int32 count = 8;
+    optional string obj_name = 1;  // 事件名
+    optional string obj_namespace = 2; // 事件命名空间
+    string obj_kind = 3; //事件资源
+    string type = 4;  // 事件类型
+    string message = 5; //事件信息
+    string reason = 6;  // 事件原因
+    string reporting_component = 7; //事件上报组件
+    optional int32 count = 8; //   累计次数
 }
 
 message JobInfo {
