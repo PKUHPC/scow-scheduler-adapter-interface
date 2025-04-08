@@ -283,6 +283,32 @@ message PodLogRequest {
   string pod_id= 2;   
 }
 
+
+// pod监控信息
+message getPodMonitorInfoRequest {
+  string pod_name = 1;             // pod 名
+  string accelerator = 2;          // 加速卡 nvidia.com/gpu or huawei.com/Ascend910
+  uint32 step = 3;                  // 时间步长, represented in milliseconds
+  google.protobuf.Timestamp start = 4; // 开始时间
+  google.protobuf.Timestamp end = 5;   // 结束时间
+}
+
+message TimeSeriesData {
+  map<string, string> metric = 1;  // 标签键值对
+  
+  repeated DataPoint values = 2;
+
+  message DataPoint {
+    int64 timestamp = 1;  // UNIX 时间戳（毫秒）
+    double value = 2;     // 数值（统一用 double）
+  }
+}
+
+message getPodMonitorInfoResponse {
+  repeated TimeSeriesData monitor_data = 1;
+}
+
+
 service JobService {
   
   /*
@@ -370,4 +396,14 @@ service JobService {
    *   NOT_FOUND, POD_NOT_FOUND, {}
    */
   rpc GetPodLog(PodLogRequest) returns (stream PodLogMessage);
+
+  /*
+   * description: get pod monitor info
+   * errors: 
+   * - pod not found
+   *   NOT_FOUND, POD_NOT_FOUND, {}
+   */
+  rpc getPodMonitorInfoRequest(getPodMonitorInfoRequest) returns (getPodMonitorInfoResponse);
+
+  
 }
