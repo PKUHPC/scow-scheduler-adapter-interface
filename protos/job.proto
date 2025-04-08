@@ -403,7 +403,7 @@ service JobService {
    * - pod not found
    *   NOT_FOUND, POD_NOT_FOUND, {}
    */
-  rpc getPodMonitorInfoRequest(getPodMonitorInfoRequest) returns (getPodMonitorInfoResponse);
+  rpc getPodMonitorInfo(getPodMonitorInfoRequest) returns (getPodMonitorInfoResponse);
 
   
 }
