@@ -192,8 +192,8 @@ message SyncAccountUserInfoRequest {
   // the scheduler can only process the same data once with the same session_id.
   string session_id = 1;
   repeated SyncAccountInfo sync_accounts = 2;
-  // maximum execution time for this request in seconds
-  optional double timeout_seconds = 3;
+  // maximum execution time for this request in milliseconds
+  optional uint32 timeout_milliseconds = 3;
 }
 
 message SyncAccountUserInfoResponse {
