@@ -29,6 +29,15 @@ message PodEvent {
 
 message JobInfo {
 
+  enum PodStatus {
+    UNKNOWN = 0;
+    PENDING = 1;
+    RUNNING = 2;
+    SUCCEEDED = 3;
+    FAILED = 4;
+    CANCELED = 5;
+  }
+
   message PodInfo {
     // 应用运行的节点
     string node_name = 1;
@@ -42,8 +51,8 @@ message JobInfo {
     string pod_id = 5;
     // 应用运行的podIp
     string pod_ip = 6;
-    // 应用运行的pod状态:Pending, Running, Succeeded, Failed, Unknown
-    string pod_status = 7;
+    // 应用运行的pod状态
+    PodStatus pod_status = 7;
     // pod拉取镜像及容器启动等的事件列表
     repeated PodEvent events = 8;
     google.protobuf.Timestamp pod_created_time = 9;
