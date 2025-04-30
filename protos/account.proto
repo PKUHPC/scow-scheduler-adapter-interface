@@ -168,6 +168,68 @@ message SyncAccountUserInfoResponse {
   bool completely_executed = 2;
 }
 
+// ************ Below is the interfaces for optional feature: RESOURCE_MANAGEMENT ***************
+message BlockAccountWithPartitionsRequest {
+  string account_name = 1;
+  // when the value exists: block specified partition(s) of the account
+  // when the value is [] or undefined: block the account in all partitions
+  repeated string blocked_partitions = 2;
+}
+
+message BlockAccountWithPartitionsResponse {
+}
+
+message UnblockAccountWithPartitionsRequest {
+  string account_name = 1;
+  // specify the available partition(s) when executing unblock
+  // when the value is [] or undefined: use all partitions
+  repeated string unblocked_partitions = 2;
+}
+
+message UnblockAccountWithPartitionsResponse {
+}
+
+message QueryAccountBlockStatusWithPartitionsRequest {
+  string account_name = 1;
+  // query in specified partition(s)
+  // when the value is [] or undefined, return all partitions blocked details
+  repeated string queried_partitions = 2;
+}
+
+message QueryAccountBlockStatusWithPartitionsResponse {
+  // return the overall blocked_status in all partitions
+  // false: when the queried account has one or more available partitions
+  // true: when the queried account has no available partitions
+  bool blocked = 1;
+  // the details of account blocked status in every partition
+  repeated AccountStatusInPartition account_blocked_details = 2;
+}
+
+message ClusterAccountInfoWithBlockedDetails {
+  message UserInAccount {
+    string user_id = 1;
+    string user_name = 2;
+    bool blocked = 3;
+  }
+  string account_name = 1;
+  repeated UserInAccount users = 2;
+  optional string owner = 3;
+  // return the overall blocked_status in all partitions
+  // false: when the queried account has one or more available partitions
+  // true: when the queried account has no available partitions
+  bool blocked = 4;
+  // the details of account blocked status in every partition
+  repeated AccountStatusInPartition account_blocked_details = 5;
+}
+
+message GetAllAccountsWithUsersAndBlockedDetailsRequest {
+
+}
+
+message GetAllAccountsWithUsersAndBlockedDetailsResponse {
+  repeated ClusterAccountInfoWithBlockedDetails accounts = 1;
+}
+// ********** Above is the interfaces for optional feature: RESOURCE_MANAGEMENT ***************
 
 
 service AccountService {
@@ -242,4 +304,43 @@ service AccountService {
    * the completely_executed field in the response will be set to false
    */
    rpc SyncAccountUserInfo(SyncAccountUserInfoRequest) returns (SyncAccountUserInfoResponse);
+
+  // ********** Below is the rpcs for optional feature: RESOURCE_MANAGEMENT ***************
+  /*  
+   * FOR OPTIONAL FEATURE: RESOURCE_MANAGEMENT
+   * description: block an account with specified partitions
+   * errors: 
+   * - account not exist
+   *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   * special case:
+   * - account already blocked, don't throw error
+   */
+   rpc BlockAccountWithPartitions(BlockAccountWithPartitionsRequest) returns (BlockAccountWithPartitionsResponse);
+  /*
+   * FOR OPTIONAL FEATURE: RESOURCE_MANAGEMENT
+   * description: unblock an account with specified partitions
+   * errors: 
+   * - account not exist
+   *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   * special case:
+   * - account already unblocked, don't throw error
+   */
+   rpc UnblockAccountWithPartitions(UnblockAccountWithPartitionsRequest) returns (UnblockAccountWithPartitionsResponse);
+  /*
+   * FOR OPTIONAL FEATURE: RESOURCE_MANAGEMENT
+   * description: query if an account is blocked with specified partitions
+   * errors: 
+   * - account not exist
+   *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
+   */
+   rpc QueryAccountBlockStatusWithPartitions(QueryAccountBlockStatusWithPartitionsRequest) returns (QueryAccountBlockStatusWithPartitionsResponse);
+  /*
+   * FOR OPTIONAL FEATURE: RESOURCE_MANAGEMENT
+   * description: get all accounts with blocked partitions' detail and all associated users 
+   * special case:
+   * - account no users, exclude this account
+   */
+   rpc GetAllAccountsWithUsersAndBlockedDetails(GetAllAccountsWithUsersAndBlockedDetailsRequest) returns (GetAllAccountsWithUsersAndBlockedDetailsResponse);
+   // ********** Above is the interfaces for optional feature: RESOURCE_MANAGEMENT ***************
+
 }
