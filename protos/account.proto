@@ -103,7 +103,6 @@ message DeleteAccountResponse {
 message BlockAccountWithPartitionsRequest {
   string account_name = 1;
   // when the value exists: block specified partition(s) of the account
-  // when the value is [] or undefined: block the account in all partitions
   repeated string blocked_partitions = 2;
 }
 
@@ -113,7 +112,6 @@ message BlockAccountWithPartitionsResponse {
 message UnblockAccountWithPartitionsRequest {
   string account_name = 1;
   // specify the available partition(s) when executing unblock
-  // when the value is [] or undefined: use all partitions
   repeated string unblocked_partitions = 2;
 }
 
