@@ -301,7 +301,7 @@ message GetPodMonitorInfoRequest {
 }
 
 message TimeSeriesData {
-  map<string, string> metric = 1;  // 标签键值对
+  map<string, string> metrics = 1;  // 标签键值对
   
   repeated DataPoint values = 2;
 
