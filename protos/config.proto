@@ -141,6 +141,17 @@ message GetClusterNodesInfoResponse {
   repeated NodeInfo nodes = 1;
 }
 
+message ListImplementedOptionalFeaturesRequest {}
+
+enum OptionalFeatures {
+  UNKNOWN = 0;
+  RESOURCE_MANAGEMENT = 1;
+}
+
+message ListImplementedOptionalFeaturesResponse {
+  repeated OptionalFeatures features = 1;
+}
+
 service ConfigService {
   /*
    * description: get cluster config
@@ -158,4 +169,9 @@ service ConfigService {
    * description: get cluster nodes information
    */
   rpc GetClusterNodesInfo(GetClusterNodesInfoRequest) returns (GetClusterNodesInfoResponse);
+
+   /*
+   * description: List optional features implemented by this scheduler adapter
+   */
+   rpc ListImplementedOptionalFeatures(ListImplementedOptionalFeaturesRequest) returns (ListImplementedOptionalFeaturesResponse);
 }
