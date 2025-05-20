@@ -115,6 +115,9 @@ message JobInfo {
 
   // 任务调度事件列表
   repeated PodEvent events = 26;
+
+    // the number of GPUs requested by job
+  int32 gpus_req = 27;
 }
 
 
