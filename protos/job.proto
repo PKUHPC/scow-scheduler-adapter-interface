@@ -201,6 +201,11 @@ message QueryJobTimeLimitResponse {
   uint64 time_limit_minutes = 1;
 }
 
+message EnvVariable {
+  string key = 1;
+  string value = 2;
+}
+
 message SubmitJobRequest {
   string user_id = 1;
   string job_name = 2;
@@ -227,7 +232,7 @@ message SubmitJobRequest {
   // NVIDIA 的 TensorFlow 框架训练特有的 worker 数 
   optional uint32 worker_node_count = 17;
   // 作业环境变量
-  map<string, string> job_env = 18;  
+  repeated EnvVariable job_env = 18;  
 }
 
 message SubmitJobResponse {
@@ -259,7 +264,7 @@ message SubmitInferJobRequest {
   // 容器中暴露的服务端口
   uint32 container_service_port = 16;
   // 作业环境变量
-  map<string, string> job_env = 17;
+  repeated EnvVariable job_env = 18;  
 }
 
 message SubmitInferJobResponse {
