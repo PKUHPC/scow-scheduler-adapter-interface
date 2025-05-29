@@ -232,7 +232,7 @@ message SubmitJobRequest {
   // NVIDIA 的 TensorFlow 框架训练特有的 worker 数 
   optional uint32 worker_node_count = 17;
   // 作业环境变量
-  repeated EnvVariable job_env = 18;  
+  repeated EnvVariable env_variables = 18;  
 }
 
 message SubmitJobResponse {
@@ -264,7 +264,7 @@ message SubmitInferJobRequest {
   // 容器中暴露的服务端口
   uint32 container_service_port = 16;
   // 作业环境变量
-  repeated EnvVariable job_env = 18;  
+  repeated EnvVariable env_variables = 18;  
 }
 
 message SubmitInferJobResponse {
