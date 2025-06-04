@@ -119,8 +119,11 @@ message JobInfo {
 
   // the number of GPUs requested by job
   int32 gpus_req = 27;
+  // TensorBoard的node
+  optional string tensor_board_node = 28;
+  // TensorBoard的port
+  optional string tensor_board_port = 29;
 }
-
 
 message TimeRange {
   optional google.protobuf.Timestamp start_time = 1;
@@ -230,6 +233,8 @@ message SubmitJobRequest {
   optional uint32 ps_node_count = 16;
   // NVIDIA 的 TensorFlow 框架训练特有的 worker 数 
   optional uint32 worker_node_count = 17;
+  // 训练中TensorBoard的数据源路径
+  optional string tensor_board_data_path = 18;
 }
 
 message SubmitJobResponse {
