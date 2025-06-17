@@ -1,5 +1,34 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.8.0
+
+### Minor Changes
+
+- 85099ce: 在 QueryAccountBlockStatus 的 Response 中变更 blocked 的注释，增加 account_blocked_details
+  在 ListImplementedOptionalFeatures 中增加可选功能枚举值
+  在 account.proto 中增加可选功能 rpc 接口
+
+### Patch Changes
+
+- 24c4889: 在 GetClusterInfoResponse 中增加集群节点信息，作业信息等内容优化查询效率
+
+## 1.7.0
+
+### Minor Changes
+
+- 94fd762: 增加 ConfigService.ListImplementedOptionalFeatures RPC，用于获取适配器实现的可选功能
+
+### Patch Changes
+
+- f3defc7: 新增 deleteUser 和 deleteAccount 接口
+
+## 1.6.0
+
+### Minor Changes
+
+- eb952d6: 新增获取集群节点信息接口 GetClusterNodesInfo
+  在 getJobsRequest 中增加兼容型参数 job_id 和 job_name
+
 ## 1.5.0
 
 ### Minor Changes

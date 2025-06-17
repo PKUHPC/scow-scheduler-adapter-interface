@@ -4,9 +4,10 @@
 
 Interface for SCOW to call different schedulers. 
 
-## Implementations 
+## Reference Implementations 
 
-- [PKUHPC/scow-slurm-adapter](https://github.com/PKUHPC/scow-slurm-adapter): for slurm
+- [PKUHPC/scow-slurm-adapter](https://github.com/PKUHPC/scow-slurm-adapter): slurm adapter
+- [abhpc/abhpc-scow-slurm-adapter](https://github.com/abhpc/abhpc-scow-slurm-adapter): slurm adapter
 
 ## Getting proto files
 
