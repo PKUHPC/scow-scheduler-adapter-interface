@@ -116,8 +116,8 @@ service UserService {
    *   NOT_FOUND, USER_ACCOUNT_NOT_FOUND, {} 
    */
   rpc QueryUserInAccountBlockStatus(QueryUserInAccountBlockStatusRequest) returns (QueryUserInAccountBlockStatusResponse);
-  
-    /*
+
+  /*
    * description: delete user
    * errors: 
    * - user not exist
