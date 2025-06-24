@@ -1,5 +1,17 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.9.0
+
+### Minor Changes
+
+- fecc28e: 增加节点迁移相关接口 RemoveNodeFromCluster、AddNodeToCluster
+- 356e32a: 增加同步账户用户数据接口 SyncAccountUserInfo
+
+### Patch Changes
+
+- 0d054b5: 修改封锁/解封账户分区接口的注释
+- aae6839: 将 CancelJobRequest 中 job_id 字段从 int32 修改为 uint32
+
 ## 1.8.0
 
 ### Minor Changes
