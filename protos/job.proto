@@ -59,6 +59,11 @@ message JobInfo {
     google.protobuf.Timestamp pod_created_time = 9;
   }
 
+  message TensorboardInfo {
+    string node = 1;
+    int32 port = 2;
+  }
+
   uint32 job_id = 1;
   string name = 2;
   string account = 3;
@@ -119,10 +124,7 @@ message JobInfo {
 
   // the number of GPUs requested by job
   int32 gpus_req = 27;
-  // TensorBoard的node
-  optional string tensor_board_node = 28;
-  // TensorBoard的port
-  optional string tensor_board_port = 29;
+  TensorboardInfo tensor_board_info = 28;
 }
 
 message TimeRange {
