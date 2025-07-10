@@ -59,6 +59,11 @@ message JobInfo {
     google.protobuf.Timestamp pod_created_time = 9;
   }
 
+  message TensorboardInfo {
+    string node = 1;
+    int32 port = 2;
+  }
+
   uint32 job_id = 1;
   string name = 2;
   string account = 3;
@@ -119,8 +124,8 @@ message JobInfo {
 
   // the number of GPUs requested by job
   int32 gpus_req = 27;
+  TensorboardInfo tensor_board_info = 28;
 }
-
 
 message TimeRange {
   optional google.protobuf.Timestamp start_time = 1;
@@ -237,6 +242,8 @@ message SubmitJobRequest {
   optional uint32 worker_node_count = 17;
   // 作业环境变量
   repeated EnvVariable env_variables = 18;  
+  // 训练中TensorBoard的数据源路径
+  optional string tensor_board_data_path = 19;
 }
 
 message SubmitJobResponse {
