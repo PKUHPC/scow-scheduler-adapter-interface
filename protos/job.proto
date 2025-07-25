@@ -310,7 +310,7 @@ message GetPodLogsResponse {
 message GetPodLogsRequest {
   string user_id = 1;
   string pod_id= 2;   
-  optional uint32 rows= 3;   
+  optional uint32 row_limit= 3;   
 }
 
 // pod监控信息
