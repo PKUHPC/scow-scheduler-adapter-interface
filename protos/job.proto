@@ -57,7 +57,7 @@ message JobInfo {
     // pod拉取镜像及容器启动等的事件列表
     repeated PodEvent events = 8;
     google.protobuf.Timestamp pod_created_time = 9;
-    google.protobuf.Timestamp pod_ended_time = 10;
+    google.protobuf.Timestamp pod_end_time = 10;
   }
 
   message TensorboardInfo {
