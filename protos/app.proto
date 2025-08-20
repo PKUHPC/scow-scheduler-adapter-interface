@@ -15,9 +15,9 @@ syntax = "proto3";
 package scow.scheduler_adapter;
 
 enum AppType {
-  UNKNOWN = 0;
-  JUPYTER_LAB = 1;
-  VSCODE = 2;
+  APP_TYPE_UNSPECIFIED = 0;
+  APP_TYPE_JUPYTER_LAB = 1;
+  APP_TYPE_VSCODE = 2;
 }
 
 message GetAppConnectionInfoRequest {

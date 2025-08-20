@@ -17,11 +17,11 @@ package scow.scheduler_adapter;
 import "google/protobuf/timestamp.proto";
 
 enum JobType {
-  UNKNOWN = 0;
-  APP = 1;
-  TRAIN = 2;
-  INFER = 3;
-  DEV_HOST = 4;
+  JOB_TYPE_UNSPECIFIED = 0;
+  JOB_TYPE_APP = 1;
+  JOB_TYPE_TRAIN = 2;
+  JOB_TYPE_INFER = 3;
+  JOB_TYPE_DEV_HOST = 4;
 }
 
 message PodEvent {
