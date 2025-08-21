@@ -349,6 +349,16 @@ message GetPodMonitorInfoResponse {
 }
 
 message CreateDevHostRequest {
+  
+  message VscodeInfo {
+    string vscode_bin_path = 1;
+  }
+
+  message JupyterLabInfo {
+    string jupyter_lab_bin_path = 1;
+    string proxy_base_path = 2;
+  }
+
   string user_id = 1;
   string job_name = 2;
   string account = 3;
@@ -360,8 +370,10 @@ message CreateDevHostRequest {
   optional uint64 memory_mb = 8;
   optional uint32 time_limit_minutes = 9;
   string working_directory = 10;
-  string vscodeBinPath = 11;
-  string jupyterLabBinPath = 12;
+
+  VscodeInfo vscode_info = 11;
+  JupyterLabInfo jupyter_lab_info = 12;
+
   repeated string mounts = 13;
   string image = 14;
 }
