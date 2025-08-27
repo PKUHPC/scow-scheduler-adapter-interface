@@ -57,8 +57,14 @@ message JobInfo {
     // pod拉取镜像及容器启动等的事件列表
     repeated PodEvent events = 8;
     google.protobuf.Timestamp pod_created_time = 9;
+    optional google.protobuf.Timestamp pod_end_time = 10;
     // 应用运行的pod原因 indicates why is the pod in this pod_status
-    optional string pod_reason = 10;
+    optional string pod_reason = 11;
+  }
+
+  message TensorboardInfo {
+    string node = 1;
+    int32 port = 2;
   }
 
   uint32 job_id = 1;
@@ -121,8 +127,8 @@ message JobInfo {
 
   // the number of GPUs requested by job
   int32 gpus_req = 27;
+  TensorboardInfo tensor_board_info = 28;
 }
-
 
 message TimeRange {
   optional google.protobuf.Timestamp start_time = 1;
@@ -207,6 +213,11 @@ message QueryJobTimeLimitResponse {
   uint64 time_limit_minutes = 1;
 }
 
+message EnvVariable {
+  string key = 1;
+  string value = 2;
+}
+
 message SubmitJobRequest {
   string user_id = 1;
   string job_name = 2;
@@ -232,6 +243,10 @@ message SubmitJobRequest {
   optional uint32 ps_node_count = 16;
   // NVIDIA 的 TensorFlow 框架训练特有的 worker 数 
   optional uint32 worker_node_count = 17;
+  // 作业环境变量
+  repeated EnvVariable env_variables = 18;  
+  // 训练中TensorBoard的数据源路径
+  optional string tensor_board_data_path = 19;
 }
 
 message SubmitJobResponse {
@@ -262,6 +277,8 @@ message SubmitInferJobRequest {
   repeated string extra_options = 15;
   // 容器中暴露的服务端口
   uint32 container_service_port = 16;
+  // 作业环境变量
+  repeated EnvVariable env_variables = 18;  
 }
 
 message SubmitInferJobResponse {
@@ -296,6 +313,7 @@ message GetPodLogsResponse {
 message GetPodLogsRequest {
   string user_id = 1;
   string pod_id= 2;   
+  optional uint32 row_limit= 3;   
 }
 
 // pod监控信息
