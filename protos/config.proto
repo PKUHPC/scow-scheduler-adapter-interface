@@ -40,9 +40,10 @@ message Partition {
   // vram: vram size in M
   optional uint64 vram_mb = 9;
 
-  optional string cuda_driver_version = 10;
+  optional string cuda_version = 10;
+  optional string cuda_driver_version = 11;
   // gpu_model: 具体的 gpu 型号，如 "RTX3090" 等
-  optional string gpu_model = 11;
+  optional string gpu_model = 12;
 }
 
 message GetClusterConfigResponse {
@@ -87,9 +88,10 @@ message PartitionInfo {
   uint32 usage_rate_percentage = 17;
   PartitionStatus partition_status = 18;
 
-  optional string cuda_driver_version = 19;
+  optional string cuda_version = 19;
+  optional string cuda_driver_version = 20;
   // gpu_model: 具体的 gpu 型号，如 "RTX3090" 等
-  optional string gpu_model = 20;
+  optional string gpu_model = 21;
 }
 
 message GetClusterInfoRequest {
