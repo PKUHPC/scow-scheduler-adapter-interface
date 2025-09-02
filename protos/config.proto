@@ -40,8 +40,8 @@ message Partition {
   // vram: vram size in M
   optional uint64 vram_mb = 9;
 
-  optional string cuda_version = 12;
-  optional string cuda_driver_version = 13;
+  optional string cuda = 12;
+  optional string accelerator_driver = 13;
   // gpu_model: 具体的 gpu 型号，如 "RTX3090" 等
   optional string gpu_model = 14;
 }
@@ -91,8 +91,8 @@ message PartitionInfo {
   optional uint32 total_mem_mb = 19;
   optional uint32 alloc_mem_mb = 20;
 
-  optional string cuda_version = 21;
-  optional string cuda_driver_version = 22;
+  optional string cuda = 21;
+  optional string accelerator_driver = 22;
   // gpu_model: 具体的 gpu 型号，如 "RTX3090" 等
   optional string gpu_model = 23;
 }
