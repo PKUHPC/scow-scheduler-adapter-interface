@@ -58,6 +58,8 @@ message JobInfo {
     repeated PodEvent events = 8;
     google.protobuf.Timestamp pod_created_time = 9;
     optional google.protobuf.Timestamp pod_end_time = 10;
+    // 应用运行的pod原因 indicates why is the pod in this pod_status
+    optional string pod_reason = 11;
   }
 
   message TensorboardInfo {
