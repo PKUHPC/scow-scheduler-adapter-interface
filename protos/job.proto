@@ -355,8 +355,7 @@ message CreateDevHostRequest {
   }
 
   message JupyterLabInfo {
-    string jupyter_lab_bin_path = 1;
-    string proxy_base_path = 2;
+    string proxy_base_path = 1;
   }
 
   string user_id = 1;
