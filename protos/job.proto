@@ -477,15 +477,5 @@ service JobService {
    */
   rpc GetPodMonitorInfo(GetPodMonitorInfoRequest) returns (GetPodMonitorInfoResponse);
 
-  /*
-   * description: create dev host 
-   * errors: 
-   * - create failed
-   *   UNKNOWN, CREATE_FAILED, {
-   *     reason: string
-   *   }
-   * - user not exist
-   *   NOT_FOUND, USER_NOT_FOUND, {}
-   */
   rpc CreateDevHost(CreateDevHostRequest) returns (CreateDevHostResponse);
 }
