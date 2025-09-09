@@ -128,6 +128,8 @@ message JobInfo {
   // the number of GPUs requested by job
   int32 gpus_req = 27;
   TensorboardInfo tensor_board_info = 28;
+
+  string adapter_job_name = 29
 }
 
 message TimeRange {
