@@ -238,6 +238,17 @@ message SubmitJobRequest {
   // relative to working directory
   optional string stderr = 14;
   // extra options when submitting job
+  // 参数解释：
+  // [0]: "app"或者"train"，分别表示是应用任务还是训练任务
+  // [1]: 如果[0]是"app"，则[1]是应用类型，为"web"或者"vnc"；如果[0]是"train"，则无意义
+  // [2]: 镜像地址
+  // [3]: 算法版本地址
+  // [4]: 数据集版本地址
+  // [5]: 模型版本地址
+  // [6]: 可读可写的多挂载点地址，以逗号分隔
+  // [7]: gpuType，表示训练时硬件卡的类型，由getClusterConfig接口获取
+  // [8]: 如果[0]是"app"，则[8]是只读的多挂载点地址，以逗号分隔；如果[0]是"train"，则是该镜像对应的AI训练框架，如tensorflow, pytorch
+  // [9]: 如果[0]是"app"，则不存在[9]；如果[0]是"train"，则[9]是只读的多挂载点地址，以逗号分隔
   repeated string extra_options = 15;
   // NVIDIA 的 TensorFlow 框架训练特有的 parameter server 数 
   optional uint32 ps_node_count = 16;
@@ -274,6 +285,11 @@ message SubmitInferJobRequest {
   // relative to working directory
   optional string stderr = 14;
   // extra options when submitting job
+  // [0]: 镜像地址
+  // [1]: 模型版本地址
+  // [2]: 多挂载点地址，以逗号分隔
+  // [3]: gpuType, 表示训练时硬件卡的类型，由getClusterConfig接口获取
+  // [4]: 多挂载点地址，以逗号分隔 (此挂载点是只读的)
   repeated string extra_options = 15;
   // 容器中暴露的服务端口
   uint32 container_service_port = 16;
