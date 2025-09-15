@@ -41,6 +41,7 @@ message Partition {
   optional uint64 vram_mb = 9;
 
   // accelerator_descriptions: 加速器描述，如cuda 版本, 驱动版本等
+  // 当前最多只允许设置两个值
   repeated string accelerator_descriptions = 10;
   // gpu_model: 具体的 gpu 型号，如 "RTX3090" 等
   optional string gpu_model = 11;
@@ -92,6 +93,7 @@ message PartitionInfo {
   optional uint32 alloc_mem_mb = 20;
 
   // accelerator_descriptions: 加速器描述，如cuda 版本, 驱动版本等
+  // 当前最多只允许设置两个值
   repeated string accelerator_descriptions = 21;
   // gpu_model: 具体的 gpu 型号，如 "RTX3090" 等
   optional string gpu_model = 22;
