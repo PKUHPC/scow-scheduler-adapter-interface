@@ -185,7 +185,8 @@ message GetJobsRequest {
   // returned jobs should be sorted if set
   optional SortInfo sort = 4;
 
-  optional JobType job_type = 5;
+  // an empty array returns jobs of all types
+  repeated JobType job_types = 5;
 
 }
 
