@@ -68,7 +68,7 @@ message JobInfo {
   // the number of nodes used by job
   optional int32 nodes_alloc = 23;
   optional google.protobuf.Timestamp end_time = 24;
-  int32 gpus_req = 25;
+  int32 gpus_req = 27;
 }
 
 
