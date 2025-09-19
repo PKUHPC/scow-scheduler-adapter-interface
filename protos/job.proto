@@ -37,6 +37,8 @@ message JobInfo {
     SUCCEEDED = 3;
     FAILED = 4;
     CANCELED = 5;
+    TIMEOUT = 6;
+    CONTAINER_CREATING = 7;
   }
 
   message PodInfo {
