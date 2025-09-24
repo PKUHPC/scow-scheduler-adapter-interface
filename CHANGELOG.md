@@ -1,5 +1,11 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.10.0
+
+### Minor Changes
+
+- 091dd91: jobInfo 增加 gpus_req
+
 ## 1.9.0
 
 ### Minor Changes
