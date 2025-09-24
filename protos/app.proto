@@ -14,8 +14,15 @@ syntax = "proto3";
 
 package scow.scheduler_adapter;
 
+enum AppType {
+  APP_TYPE_UNSPECIFIED = 0;
+  APP_TYPE_JUPYTER_LAB = 1;
+  APP_TYPE_VSCODE = 2;
+}
+
 message GetAppConnectionInfoRequest {
   uint32 job_id = 1;
+  optional AppType app_type = 2;
 }
 
 message GetAppConnectionInfoResponse {
