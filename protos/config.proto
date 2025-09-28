@@ -40,7 +40,7 @@ message Partition {
   // vram: vram size in M
   optional uint64 vram_mb = 9;
   // 适配器配置的，每个Pod加速卡数量限额
-  uint32 max_accelerators_per_pod = 10;
+  optional uint32 max_accelerators_per_pod = 10;
 }
 
 message GetClusterConfigResponse {
