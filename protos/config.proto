@@ -39,8 +39,15 @@ message Partition {
   optional string gpu_type = 8;
   // vram: vram size in M
   optional uint64 vram_mb = 9;
+
+  // accelerator_descriptions: 加速器描述，如cuda 版本, 驱动版本等
+  // 当前最多只允许设置两个值
+  repeated string accelerator_descriptions = 10;
+  // gpu_model: 具体的 gpu 型号，如 "RTX3090" 等
+  optional string gpu_model = 11;
+
   // 适配器配置的，每个Pod加速卡数量限额
-  optional uint32 max_accelerators_per_pod = 10;
+  optional uint32 max_accelerators_per_pod = 12;
 }
 
 message GetClusterConfigResponse {
@@ -84,6 +91,15 @@ message PartitionInfo {
   // node utilization rate
   uint32 usage_rate_percentage = 17;
   PartitionStatus partition_status = 18;
+
+  optional uint32 total_mem_mb = 19;
+  optional uint32 alloc_mem_mb = 20;
+
+  // accelerator_descriptions: 加速器描述，如cuda 版本, 驱动版本等
+  // 当前最多只允许设置两个值
+  repeated string accelerator_descriptions = 21;
+  // gpu_model: 具体的 gpu 型号，如 "RTX3090" 等
+  optional string gpu_model = 22;
 }
 
 message GetClusterInfoRequest {
