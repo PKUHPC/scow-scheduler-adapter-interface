@@ -16,6 +16,14 @@ package scow.scheduler_adapter;
 
 import "google/protobuf/timestamp.proto";
 
+enum JobType {
+  JOB_TYPE_UNSPECIFIED = 0;
+  JOB_TYPE_APP = 1;
+  JOB_TYPE_TRAIN = 2;
+  JOB_TYPE_INFER = 3;
+  JOB_TYPE_DEV_HOST = 4;
+}
+
 message PodEvent {
     optional string obj_name = 1;  // 事件名
     optional string obj_namespace = 2; // 事件命名空间
@@ -37,6 +45,8 @@ message JobInfo {
     SUCCEEDED = 3;
     FAILED = 4;
     CANCELED = 5;
+    TIMEOUT = 6;
+    CONTAINER_CREATING = 7;
   }
 
   message PodInfo {
@@ -179,6 +189,10 @@ message GetJobsRequest {
 
   // returned jobs should be sorted if set
   optional SortInfo sort = 4;
+
+  // an empty array returns jobs of all types
+  repeated JobType job_types = 5;
+
 }
 
 message GetJobsResponse {
@@ -241,6 +255,17 @@ message SubmitJobRequest {
   // relative to working directory
   optional string stderr = 14;
   // extra options when submitting job
+  // 参数解释：
+  // [0]: "app"或者"train"，分别表示是应用任务还是训练任务
+  // [1]: 如果[0]是"app"，则[1]是应用类型，为"web"或者"vnc"；如果[0]是"train"，则无意义
+  // [2]: 镜像地址
+  // [3]: 算法版本地址
+  // [4]: 数据集版本地址
+  // [5]: 模型版本地址
+  // [6]: 可读可写的多挂载点地址，以逗号分隔
+  // [7]: gpuType，表示训练时硬件卡的类型，由getClusterConfig接口获取
+  // [8]: 如果[0]是"app"，则[8]是只读的多挂载点地址，以逗号分隔；如果[0]是"train"，则是该镜像对应的AI训练框架，如tensorflow, pytorch
+  // [9]: 如果[0]是"app"，则不存在[9]；如果[0]是"train"，则[9]是只读的多挂载点地址，以逗号分隔
   repeated string extra_options = 15;
   // NVIDIA 的 TensorFlow 框架训练特有的 parameter server 数 
   optional uint32 ps_node_count = 16;
@@ -277,6 +302,11 @@ message SubmitInferJobRequest {
   // relative to working directory
   optional string stderr = 14;
   // extra options when submitting job
+  // [0]: 镜像地址
+  // [1]: 模型版本地址
+  // [2]: 多挂载点地址，以逗号分隔
+  // [3]: gpuType, 表示训练时硬件卡的类型，由getClusterConfig接口获取
+  // [4]: 多挂载点地址，以逗号分隔 (此挂载点是只读的)
   repeated string extra_options = 15;
   // 容器中暴露的服务端口
   uint32 container_service_port = 16;
@@ -342,6 +372,39 @@ message GetPodMonitorInfoResponse {
   repeated TimeSeriesData monitor_data = 1;
 }
 
+message CreateDevHostRequest {
+  
+  message VscodeInfo {
+    string vscode_bin_path = 1;
+  }
+
+  message JupyterLabInfo {
+    string proxy_base_path = 1;
+  }
+
+  string user_id = 1;
+  string job_name = 2;
+  string account = 3;
+  string partition = 4;
+  string qos = 5;
+  uint32 core_count = 6;
+  uint32 gpu_count = 7;
+  // if not set, use default memory size
+  optional uint64 memory_mb = 8;
+  optional uint32 time_limit_minutes = 9;
+  string working_directory = 10;
+
+  VscodeInfo vscode_info = 11;
+  JupyterLabInfo jupyter_lab_info = 12;
+
+  repeated string mounts = 13;
+  repeated string public_mounts = 14;
+  string image = 15;
+}
+
+message CreateDevHostResponse {
+  uint32 job_id = 1;
+}
 
 service JobService {
   
@@ -439,5 +502,5 @@ service JobService {
    */
   rpc GetPodMonitorInfo(GetPodMonitorInfoRequest) returns (GetPodMonitorInfoResponse);
 
-  
+  rpc CreateDevHost(CreateDevHostRequest) returns (CreateDevHostResponse);
 }
