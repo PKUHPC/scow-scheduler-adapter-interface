@@ -45,6 +45,8 @@ message Partition {
   repeated string accelerator_descriptions = 10;
   // gpu_model: 具体的 gpu 型号，如 "RTX3090" 等
   optional string gpu_model = 11;
+  // cpu_model: 具体的 cpu 型号，如 "Intel(R) Xeon(R) Platinum 81633090" 等
+  optional string cpu_model = 12;
 }
 
 message GetClusterConfigResponse {
