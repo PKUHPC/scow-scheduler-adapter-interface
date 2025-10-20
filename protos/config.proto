@@ -112,9 +112,9 @@ message SummaryPartitionInfo {
 
   string partition_name = 1;
   uint32 node_count = 2;
-  uint32 node_usage = 3;
-  uint32 cpu_usage = 4;
-  uint32 gpu_usage = 5;
+  uint64 node_usage = 3;
+  uint64 cpu_usage = 4;
+  uint64 gpu_usage = 5;
   uint32 pending_job_count = 6;
   PartitionStatus partition_status = 7;
 }
@@ -140,12 +140,12 @@ message GetSummaryClusterInfoResponse {
   uint32 running_gpu_count = 12;
   uint32 idle_gpu_count = 13;
   uint32 not_available_gpu_count = 14;
-  uint32 running_job_count = 16;
-  uint32 pending_job_count = 17;
+  uint32 running_job_count = 15;
+  uint32 pending_job_count = 16;
 
-  uint32 node_usage = 18;
-  uint32 cpu_usage = 19;
-  uint32 gpu_usage = 20;
+  uint64 node_usage = 17;
+  uint64 cpu_usage = 18;
+  uint64 gpu_usage = 19;
 }
 
 
@@ -207,6 +207,10 @@ service ConfigService {
    * description: get cluster information
    */
   rpc GetClusterInfo(GetClusterInfoRequest) returns (GetClusterInfoResponse);
+  /*
+   * description: get calculated cluster information
+   */
+  rpc GetSummaryClusterInfo(GetSummaryClusterInfoRequest) returns (GetSummaryClusterInfoResponse);
    /*
    * description: get cluster nodes information
    */
