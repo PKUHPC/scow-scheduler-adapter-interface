@@ -133,10 +133,12 @@ message SummaryPartitionInfo {
   string partition_name = 1;
   uint32 node_count = 2;
   float node_usage = 3;
-  float cpu_usage = 4;
-  float gpu_usage = 5;
-  uint32 pending_job_count = 6;
-  PartitionStatus partition_status = 7;
+  uint32 cpu_core_count =4;
+  float cpu_usage = 5;
+  uint32 gpu_core_count = 6;
+  float gpu_usage = 7;
+  uint32 pending_job_count = 8;
+  PartitionStatus partition_status = 9;
 }
 
 message GetSummaryClusterInfoRequest {
