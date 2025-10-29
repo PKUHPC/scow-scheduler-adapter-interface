@@ -34,7 +34,7 @@ message Partition {
   // price item description
   optional string comment = 7;
   // gpu_type: 目前可能的值为 "nvidia" 、 "huawei.com/Ascend910"
-  // AI在gpu分区用gpu训练时必填gpu_type 
+  // AI在gpu分区用gpu训练时必填gpu_type
   // 华为的gpu卡支持特殊的框架 mindspore
   optional string gpu_type = 8;
   // vram: vram size in M
@@ -128,7 +128,7 @@ message GetClusterInfoResponse {
 }
 
 message NodeInfo {
-  
+
   enum NodeState {
     UNKNOWN = 0;
     IDLE = 1;
@@ -150,7 +150,7 @@ message NodeInfo {
   uint32 idle_gpu_count = 12;
   // node migration flag
   bool removable = 13;
-} 
+}
 
 message GetClusterNodesInfoRequest {
   // if the value of node_names = [], request all nodes info
@@ -189,7 +189,7 @@ service ConfigService {
    * description: get cluster nodes information
    */
   rpc GetClusterNodesInfo(GetClusterNodesInfoRequest) returns (GetClusterNodesInfoResponse);
-  
+
    /*
    * description: List optional features implemented by this scheduler adapter
    */
