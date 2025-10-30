@@ -106,8 +106,9 @@ message GetClusterInfoResponse {
 
 message SummaryPartitionInfo {
   enum PartitionStatus {
-    NOT_AVAILABLE = 0;
-    AVAILABLE = 1;
+    UNKNOWN = 0;
+    NOT_AVAILABLE = 1;
+    AVAILABLE = 2;
   }
 
   string partition_name = 1;
