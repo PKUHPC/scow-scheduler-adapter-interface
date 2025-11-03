@@ -143,7 +143,8 @@ message SummaryPartitionInfo {
 }
 
 message GetSummaryClusterInfoRequest {
-  repeated string accountNames = 1;
+  // 关联账户 用于筛选已授权集群分区
+  repeated string account_names = 1;
 }
 
 message GetSummaryClusterInfoResponse {
