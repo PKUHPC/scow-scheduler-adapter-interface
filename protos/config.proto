@@ -123,6 +123,7 @@ message SummaryPartitionInfo {
 }
 
 message GetSummaryClusterInfoRequest {
+  // 关联账户 用于筛选已授权集群分区
   repeated string account_names = 1;
 }
 
