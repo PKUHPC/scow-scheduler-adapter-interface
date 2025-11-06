@@ -45,6 +45,9 @@ message Partition {
   repeated string accelerator_descriptions = 10;
   // gpu_model: 具体的 gpu 型号，如 "RTX3090" 等
   optional string gpu_model = 11;
+
+  // 适配器配置的，每个Pod加速卡数量限额
+  optional uint32 max_accelerators_per_pod = 12;
 }
 
 message GetClusterConfigResponse {
