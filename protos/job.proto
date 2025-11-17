@@ -389,6 +389,11 @@ message CreateDevHostRequest {
     string proxy_base_path = 1;
   }
 
+  message MountInfo {
+    string path = 1;
+    string target = 2;
+  }
+
   string user_id = 1;
   string job_name = 2;
   string account = 3;
@@ -404,7 +409,7 @@ message CreateDevHostRequest {
   VscodeInfo vscode_info = 11;
   JupyterLabInfo jupyter_lab_info = 12;
 
-  repeated string mounts = 13;
+  repeated MountInfo mounts = 13;
   repeated string public_mounts = 14;
   string image = 15;
 }
