@@ -412,6 +412,9 @@ message CreateDevHostRequest {
   repeated MountInfo mounts = 13;
   repeated string public_mounts = 14;
   string image = 15;
+  // 镜像私仓的用户名和密码
+  optional PrivateImageRepository private_image_repository = 16;
+
 }
 
 message CreateDevHostResponse {
