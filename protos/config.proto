@@ -94,8 +94,8 @@ message PartitionInfo {
   uint32 usage_rate_percentage = 17;
   PartitionStatus partition_status = 18;
 
-  optional uint32 total_mem_mb = 19;
-  optional uint32 alloc_mem_mb = 20;
+  uint32 total_mem_mb = 19;
+  uint32 alloc_mem_mb = 20;
 
   // accelerator_descriptions: 加速器描述，如cuda 版本, 驱动版本等
   // 当前最多只允许设置两个值
