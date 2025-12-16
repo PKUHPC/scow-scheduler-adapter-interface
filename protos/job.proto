@@ -205,7 +205,8 @@ message SubmitScriptAsJobResponse {
 message RunCommandOnJobNodesRequest {
   uint32 job_id = 1;
   string command = 2;
-  optional string nodes = 3;
+  uint32 timeout_seconds = 3;
+  optional string nodes = 4;
 }
 
 message RunCommandOnJobNodesResponse {
