@@ -210,7 +210,8 @@ message RunCommandOnJobNodesRequest {
 }
 
 message RunCommandOnJobNodesResponse {
-  string output = 1;
+  string stdout = 1;
+  string stderr = 2;
 }
 
 service JobService {
