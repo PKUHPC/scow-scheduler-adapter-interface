@@ -202,6 +202,16 @@ message SubmitScriptAsJobResponse {
   uint32 job_id = 1;
 }
 
+message RunCommandOnJobNodesRequest {
+  uint32 job_id = 1;
+  string command = 2;
+  optional string nodes = 3;
+}
+
+message RunCommandOnJobNodesResponse {
+  string output = 1;
+}
+
 service JobService {
   
   /*
@@ -270,4 +280,11 @@ service JobService {
    */
   rpc SubmitScriptAsJob(SubmitScriptAsJobRequest) returns (SubmitScriptAsJobResponse);
 
+  /*
+   * description: run a command on job nodes
+   * errors: 
+   * - job not found
+   *   NOT_FOUND, JOB_NOT_FOUND, {}
+   */
+  rpc RunCommandOnJobNodes(RunCommandOnJobNodesRequest) returns (RunCommandOnJobNodesResponse);
 }
