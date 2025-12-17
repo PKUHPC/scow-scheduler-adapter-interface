@@ -206,7 +206,7 @@ message RunCommandOnJobNodesRequest {
   uint32 job_id = 1;
   string command = 2;
   uint32 timeout_seconds = 3;
-  optional string nodes = 4;
+  repeated string nodes = 4;
 }
 
 message RunCommandOnJobNodesResponse {
