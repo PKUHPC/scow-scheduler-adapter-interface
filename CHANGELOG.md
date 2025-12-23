@@ -1,5 +1,11 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.12.0
+
+### Minor Changes
+
+- 78e3852: feat: 增加获取仪表盘集群数据汇总的接口 getSummaryClusterInfo
+
 ## 1.11.0
 
 ### Minor Changes
