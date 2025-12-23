@@ -319,6 +319,8 @@ message SubmitInferJobRequest {
   uint32 container_service_port = 16;
   // 作业环境变量
   repeated EnvVariable env_variables = 18;  
+  // 镜像私仓的用户名和密码
+  optional PrivateImageRepositoryCredentials private_image_repository_credentials = 19;
 }
 
 message SubmitInferJobResponse {
