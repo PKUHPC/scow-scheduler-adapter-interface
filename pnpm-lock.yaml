@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@bufbuild/buf':
-    specifier: 1.27.2
-    version: 1.27.2
+    specifier: 1.61.0
+    version: 1.61.0
   '@changesets/cli':
     specifier: 2.26.2
     version: 2.26.2
@@ -46,8 +46,8 @@ packages:
       regenerator-runtime: 0.14.0
     dev: true
 
-  /@bufbuild/buf-darwin-arm64@1.27.2:
-    resolution: {integrity: sha512-ob1IAhFVsAVUr5o4EAwoeQ6FOGJdiS6eYGTGQiZzJEAYSs2dX/WQ9+Xz9EPQUb93n7PMjNs38DLDfwGQ3u3dsg==}
+  /@bufbuild/buf-darwin-arm64@1.61.0:
+    resolution: {integrity: sha512-8vUGNV65LNPp+HT3NuCT9i/mCUEyLrSFctJ2Dz8JqnUu8fVPm4f8lVBSCT0TYLoQ8o8xb/A7bwWu14aKfXxgCg==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [darwin]
@@ -55,8 +55,8 @@ packages:
     dev: true
     optional: true
 
-  /@bufbuild/buf-darwin-x64@1.27.2:
-    resolution: {integrity: sha512-Kp0HBvLjeOxJtZ/j3vOulX6G3u5pa9vksVmJ5HGjhL0BZJwavh8Bd9YgrBDrTzKtTQMHxmhTSaNEgNUWkjecfw==}
+  /@bufbuild/buf-darwin-x64@1.61.0:
+    resolution: {integrity: sha512-dyJghwTYXT6e/Ec+2iPWijquTzyT+5vTItX4R7hM/soNQOs4eEo2z7EHLqvclHyi7+p7+8xye3z+BFM33ucM8A==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [darwin]
@@ -64,8 +64,8 @@ packages:
     dev: true
     optional: true
 
-  /@bufbuild/buf-linux-aarch64@1.27.2:
-    resolution: {integrity: sha512-rq+bpT+FMR1iiUvcHno1SPS4e0Ydr+F7ArIzN5cO4DKL09sBJXcaVGa7fRRlBZvNJTt3XRVtlE8LNLGH7zjBOg==}
+  /@bufbuild/buf-linux-aarch64@1.61.0:
+    resolution: {integrity: sha512-9r5DRqwpq3WX0ltzt1p/Oe+8g679Fg4XJLaH/zmjqpwHVO+tNzYy7PHK4qWg83PCoANw6OVizl+iTmnE0vbklg==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [linux]
@@ -73,8 +73,17 @@ packages:
     dev: true
     optional: true
 
-  /@bufbuild/buf-linux-x64@1.27.2:
-    resolution: {integrity: sha512-t/lcJ06gELy+4hVROuoeX8Y+oXq9NrPX+UgT5WujGo21oOb8UAQETZLRefj2U4IRqYqXhTKicfOI2y8xI7CSlQ==}
+  /@bufbuild/buf-linux-armv7@1.61.0:
+    resolution: {integrity: sha512-P2cSlzu68omZ6kyijMcYezZJFS4XayfLA0ATm1HP0zUaV+xVoeMOGhKvMWUFAa9SGYUs4Drxi2fyK/c2ZFA8sw==}
+    engines: {node: '>=12'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@bufbuild/buf-linux-x64@1.61.0:
+    resolution: {integrity: sha512-USDSLB0vkrR6Sk/VDtECLdOKHfynenCjnAchr9bdqC137IVJT7TVT8JhBW0UWMmXDZYjwbDrBLITwWj8hwk6Uw==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [linux]
@@ -82,8 +91,8 @@ packages:
     dev: true
     optional: true
 
-  /@bufbuild/buf-win32-arm64@1.27.2:
-    resolution: {integrity: sha512-rJieGmtSw4tfteW6mhjdtDDTFBbl2HBan1FnfNAOZH4ZrTwfcOO5Vn3fUMl+jPtiCpTscyzVaYHI+LvYffSdvg==}
+  /@bufbuild/buf-win32-arm64@1.61.0:
+    resolution: {integrity: sha512-36n90c0lzhDMXRKhht8XreUCha4OTY7yR6g+bnkAFUXSbCbR3BpqrenWvl5NBtfX2Y70dmvjKnGwVanSIrb1uA==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [win32]
@@ -91,8 +100,8 @@ packages:
     dev: true
     optional: true
 
-  /@bufbuild/buf-win32-x64@1.27.2:
-    resolution: {integrity: sha512-x9IKCHgj6GmDGH2xlTo80l2feNU3hUeoEwLFLH4I5Qs2L1gfYIDMZGp+0Bhm5eK9CIWYtkJqeqGRIJkrJA6CfQ==}
+  /@bufbuild/buf-win32-x64@1.61.0:
+    resolution: {integrity: sha512-uBIU7tQlCBPyoeJZH0NzL6y9Y4ikje4OlgHYGssbaPLsCKELSFDHQkHFabkwnVeXSUf9Intq+U3jtb+qOIlflw==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [win32]
@@ -100,18 +109,19 @@ packages:
     dev: true
     optional: true
 
-  /@bufbuild/buf@1.27.2:
-    resolution: {integrity: sha512-hwZYF0DCxvmTAZIAeT/q66HYtIxnSH9jn/CVElaJA/l+Clr9zhLdfKFd1yD2lMqHpNUEeXtA8T0ABXv29NVfYQ==}
+  /@bufbuild/buf@1.61.0:
+    resolution: {integrity: sha512-9kKZK/GjhIDUj50pngmjtC6bGFl6U1rFDH2gZJATRfp2vNnQPsb6BqZ+2lea37bgHBYdAYttlve8wnXszXmftA==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
     optionalDependencies:
-      '@bufbuild/buf-darwin-arm64': 1.27.2
-      '@bufbuild/buf-darwin-x64': 1.27.2
-      '@bufbuild/buf-linux-aarch64': 1.27.2
-      '@bufbuild/buf-linux-x64': 1.27.2
-      '@bufbuild/buf-win32-arm64': 1.27.2
-      '@bufbuild/buf-win32-x64': 1.27.2
+      '@bufbuild/buf-darwin-arm64': 1.61.0
+      '@bufbuild/buf-darwin-x64': 1.61.0
+      '@bufbuild/buf-linux-aarch64': 1.61.0
+      '@bufbuild/buf-linux-armv7': 1.61.0
+      '@bufbuild/buf-linux-x64': 1.61.0
+      '@bufbuild/buf-win32-arm64': 1.61.0
+      '@bufbuild/buf-win32-x64': 1.61.0
     dev: true
 
   /@changesets/apply-release-plan@6.1.4:
