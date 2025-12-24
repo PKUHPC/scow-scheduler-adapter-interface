@@ -28,9 +28,9 @@ message PodEvent {
     optional string obj_name = 1;  // 事件名
     optional string obj_namespace = 2; // 事件命名空间
     string obj_kind = 3; // 事件资源
-    string type = 4;  // 事件类型
+    string type = 4; // 事件类型
     string message = 5; // 事件信息
-    string reason = 6;  // 事件原因
+    string reason = 6; // 事件原因
     string reporting_component = 7; //事件上报组件
     optional int32 count = 8; // 累计次数
     google.protobuf.Timestamp time = 9; // 事件发生时间
@@ -190,6 +190,7 @@ message GetJobsRequest {
   // returned jobs should be sorted if set
   optional SortInfo sort = 4;
 
+  // AI job types. Not used for HPC
   // an empty array returns jobs of all types
   repeated JobType job_types = 5;
 
@@ -271,7 +272,7 @@ message SubmitJobRequest {
   optional uint32 ps_node_count = 16;
   // NVIDIA 的 TensorFlow 框架训练特有的 worker 数 
   optional uint32 worker_node_count = 17;
-  // 作业环境变量
+  // AI作业环境变量
   repeated EnvVariable env_variables = 18;  
   // 训练中TensorBoard的数据源路径
   optional string tensor_board_data_path = 19;
@@ -340,7 +341,7 @@ message SubmitScriptAsJobResponse {
 
 // pod日志信息
 message GetPodLogsResponse {
-  string log = 1;  // 日志内容
+  string log = 1; // 日志内容
 }
 
 message GetPodLogsRequest {
@@ -351,20 +352,20 @@ message GetPodLogsRequest {
 
 // pod监控信息
 message GetPodMonitorInfoRequest {
-  string pod_name = 1;             // pod 名
-  uint32 step_seconds = 2;                  // 时间步长, represented in seconds
+  string pod_name = 1; // pod 名
+  uint32 step_seconds = 2; // 时间步长, represented in seconds
   google.protobuf.Timestamp start = 3; // 开始时间
-  google.protobuf.Timestamp end = 4;   // 结束时间
+  google.protobuf.Timestamp end = 4; // 结束时间
 }
 
 message TimeSeriesData {
-  map<string, string> metrics = 1;  // 标签键值对
+  map<string, string> metrics = 1; // 标签键值对
   
   repeated DataPoint values = 2;
 
   message DataPoint {
-    int64 timestamp_millisecond = 1;  // UNIX 时间戳（毫秒）
-    double value = 2;     // 数值（统一用 double）
+    int64 timestamp_millisecond = 1; // UNIX 时间戳（毫秒）
+    double value = 2; // 数值（统一用 double）
   }
 }
 
@@ -502,5 +503,8 @@ service JobService {
    */
   rpc GetPodMonitorInfo(GetPodMonitorInfoRequest) returns (GetPodMonitorInfoResponse);
 
+  /*
+    * description: create a dev host job
+    */
   rpc CreateDevHost(CreateDevHostRequest) returns (CreateDevHostResponse);
 }
