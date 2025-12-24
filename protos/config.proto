@@ -233,10 +233,6 @@ service ConfigService {
    * description: get cluster information
    */
   rpc GetClusterInfo(GetClusterInfoRequest) returns (GetClusterInfoResponse);
-  /*
-   * description: get calculated cluster information
-   */
-  rpc GetSummaryClusterInfo(GetSummaryClusterInfoRequest) returns (GetSummaryClusterInfoResponse);
    /*
    * description: get calculated cluster information
    */

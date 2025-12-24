@@ -97,30 +97,6 @@ message DeleteAccountRequest {
 message DeleteAccountResponse {
 }
 
-message SyncAccountInfo {
-  message UserInAccount {
-    string user_id = 1;
-    bool blocked = 2;
-    optional bool deleted = 3;
-  }
-  string account_name = 1;
-  repeated UserInAccount users = 2;
-  optional string owner_id = 3;
-  bool blocked_in_cluster = 4;
-  optional uint32 whitelist_id = 5;
-
-  message AssignedPartitions {
-    repeated string partitions = 1;
-  }
-  // use assigned partitions or all partitions
-  oneof unblocked_partitions {
-    AssignedPartitions assigned_partitions = 6;
-    bool use_all_partitions = 7;
-  }
-
-  optional bool deleted = 8;
-}
-
 message SyncAccountUserInfoRequest {
   // session id during one same data sync operation
   // the scheduler can only process the same data once with the same session_id.
