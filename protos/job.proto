@@ -16,7 +16,67 @@ package scow.scheduler_adapter;
 
 import "google/protobuf/timestamp.proto";
 
+enum JobType {
+  JOB_TYPE_UNSPECIFIED = 0;
+  JOB_TYPE_APP = 1;
+  JOB_TYPE_TRAIN = 2;
+  JOB_TYPE_INFER = 3;
+  JOB_TYPE_DEV_HOST = 4;
+}
+
+message PodEvent {
+    optional string obj_name = 1;  // 事件名
+    optional string obj_namespace = 2; // 事件命名空间
+    string obj_kind = 3; // 事件资源
+    string type = 4;  // 事件类型
+    string message = 5; // 事件信息
+    string reason = 6;  // 事件原因
+    string reporting_component = 7; //事件上报组件
+    optional int32 count = 8; // 累计次数
+    google.protobuf.Timestamp time = 9; // 事件发生时间
+}
+
 message JobInfo {
+
+  enum PodStatus {
+    UNKNOWN = 0;
+    PENDING = 1;
+    RUNNING = 2;
+    SUCCEEDED = 3;
+    FAILED = 4;
+    CANCELED = 5;
+    TIMEOUT = 6;
+    CONTAINER_CREATING = 7;
+  }
+
+  message PodInfo {
+    // 应用运行的节点
+    string node_name = 1;
+    // 应用运行的容器ID
+    string container_id = 2;
+    // 应用运行的podName
+    string pod_name = 3;
+    // 应用运行的namespace
+    string namespace = 4;
+    // 应用运行的podUid
+    string pod_id = 5;
+    // 应用运行的podIp
+    string pod_ip = 6;
+    // 应用运行的pod状态
+    PodStatus pod_status = 7;
+    // pod拉取镜像及容器启动等的事件列表
+    repeated PodEvent events = 8;
+    google.protobuf.Timestamp pod_created_time = 9;
+    optional google.protobuf.Timestamp pod_end_time = 10;
+    // 应用运行的pod原因 indicates why is the pod in this pod_status
+    optional string pod_reason = 11;
+  }
+
+  message TensorboardInfo {
+    string node = 1;
+    int32 port = 2;
+  }
+
   uint32 job_id = 1;
   string name = 2;
   string account = 3;
@@ -68,9 +128,20 @@ message JobInfo {
   // the number of nodes used by job
   optional int32 nodes_alloc = 23;
   optional google.protobuf.Timestamp end_time = 24;
-  int32 gpus_req = 27;
-}
 
+  // 容器化作业特有的信息
+  repeated PodInfo pods = 25;
+
+  // 任务调度事件列表
+  repeated PodEvent events = 26;
+
+  // the number of GPUs requested by job
+  int32 gpus_req = 27;
+  TensorboardInfo tensor_board_info = 28;
+
+  // 适配器数据库中的作业名称，是唯一的
+  string unique_job_name = 29;
+}
 
 message TimeRange {
   optional google.protobuf.Timestamp start_time = 1;
@@ -118,6 +189,10 @@ message GetJobsRequest {
 
   // returned jobs should be sorted if set
   optional SortInfo sort = 4;
+
+  // an empty array returns jobs of all types
+  repeated JobType job_types = 5;
+
 }
 
 message GetJobsResponse {
@@ -155,6 +230,11 @@ message QueryJobTimeLimitResponse {
   uint64 time_limit_minutes = 1;
 }
 
+message EnvVariable {
+  string key = 1;
+  string value = 2;
+}
+
 message SubmitJobRequest {
   string user_id = 1;
   string job_name = 2;
@@ -175,13 +255,69 @@ message SubmitJobRequest {
   // relative to working directory
   optional string stderr = 14;
   // extra options when submitting job
+  // 参数解释：
+  // [0]: "app"或者"train"，分别表示是应用任务还是训练任务
+  // [1]: 如果[0]是"app"，则[1]是应用类型，为"web"或者"vnc"；如果[0]是"train"，则无意义
+  // [2]: 镜像地址
+  // [3]: 算法版本地址
+  // [4]: 数据集版本地址
+  // [5]: 模型版本地址
+  // [6]: 可读可写的多挂载点地址，以逗号分隔
+  // [7]: gpuType，表示训练时硬件卡的类型，由getClusterConfig接口获取
+  // [8]: 如果[0]是"app"，则[8]是只读的多挂载点地址，以逗号分隔；如果[0]是"train"，则是该镜像对应的AI训练框架，如tensorflow, pytorch
+  // [9]: 如果[0]是"app"，则不存在[9]；如果[0]是"train"，则[9]是只读的多挂载点地址，以逗号分隔
   repeated string extra_options = 15;
+  // NVIDIA 的 TensorFlow 框架训练特有的 parameter server 数 
+  optional uint32 ps_node_count = 16;
+  // NVIDIA 的 TensorFlow 框架训练特有的 worker 数 
+  optional uint32 worker_node_count = 17;
+  // 作业环境变量
+  repeated EnvVariable env_variables = 18;  
+  // 训练中TensorBoard的数据源路径
+  optional string tensor_board_data_path = 19;
 }
 
 message SubmitJobResponse {
   uint32 job_id = 1;
   string generated_script = 2;
 }
+
+message SubmitInferJobRequest {
+  string user_id = 1;
+  string job_name = 2;
+  string account = 3;
+  // if not set, use a default partition
+  string partition = 4;
+  optional string qos = 5;
+  uint32 node_count = 6;
+  uint32 gpu_count = 7;
+  // if not set, use default memory size
+  optional uint64 memory_mb = 8;
+  uint32 core_count = 9;
+  optional uint32 time_limit_minutes = 10;
+  string script = 11;
+  string working_directory = 12;
+  // relative to working directory
+  optional string stdout = 13;
+  // relative to working directory
+  optional string stderr = 14;
+  // extra options when submitting job
+  // [0]: 镜像地址
+  // [1]: 模型版本地址
+  // [2]: 多挂载点地址，以逗号分隔
+  // [3]: gpuType, 表示训练时硬件卡的类型，由getClusterConfig接口获取
+  // [4]: 多挂载点地址，以逗号分隔 (此挂载点是只读的)
+  repeated string extra_options = 15;
+  // 容器中暴露的服务端口
+  uint32 container_service_port = 16;
+  // 作业环境变量
+  repeated EnvVariable env_variables = 18;  
+}
+
+message SubmitInferJobResponse {
+  uint32 job_id = 1;
+}
+
 
 message CancelJobRequest {
   string user_id = 1;
@@ -199,6 +335,74 @@ message SubmitScriptAsJobRequest {
 }
 
 message SubmitScriptAsJobResponse {
+  uint32 job_id = 1;
+}
+
+// pod日志信息
+message GetPodLogsResponse {
+  string log = 1;  // 日志内容
+}
+
+message GetPodLogsRequest {
+  string user_id = 1;
+  string pod_id= 2;   
+  optional uint32 row_limit= 3;   
+}
+
+// pod监控信息
+message GetPodMonitorInfoRequest {
+  string pod_name = 1;             // pod 名
+  uint32 step_seconds = 2;                  // 时间步长, represented in seconds
+  google.protobuf.Timestamp start = 3; // 开始时间
+  google.protobuf.Timestamp end = 4;   // 结束时间
+}
+
+message TimeSeriesData {
+  map<string, string> metrics = 1;  // 标签键值对
+  
+  repeated DataPoint values = 2;
+
+  message DataPoint {
+    int64 timestamp_millisecond = 1;  // UNIX 时间戳（毫秒）
+    double value = 2;     // 数值（统一用 double）
+  }
+}
+
+message GetPodMonitorInfoResponse {
+  repeated TimeSeriesData monitor_data = 1;
+}
+
+message CreateDevHostRequest {
+  
+  message VscodeInfo {
+    string vscode_bin_path = 1;
+  }
+
+  message JupyterLabInfo {
+    string proxy_base_path = 1;
+  }
+
+  string user_id = 1;
+  string job_name = 2;
+  string account = 3;
+  string partition = 4;
+  string qos = 5;
+  uint32 core_count = 6;
+  uint32 gpu_count = 7;
+  // if not set, use default memory size
+  optional uint64 memory_mb = 8;
+  optional uint32 time_limit_minutes = 9;
+  string working_directory = 10;
+
+  VscodeInfo vscode_info = 11;
+  JupyterLabInfo jupyter_lab_info = 12;
+
+  repeated string mounts = 13;
+  repeated string public_mounts = 14;
+  string image = 15;
+}
+
+message CreateDevHostResponse {
   uint32 job_id = 1;
 }
 
@@ -270,4 +474,33 @@ service JobService {
    */
   rpc SubmitScriptAsJob(SubmitScriptAsJobRequest) returns (SubmitScriptAsJobResponse);
 
+   /*
+   * description: submit infer job 
+   * errors: 
+   * - sbatch failed
+   *   UNKNOWN, SBATCH_FAILED, {
+   *     reason: string
+   *   }
+   * - user not exist
+   *   NOT_FOUND, USER_NOT_FOUND, {}
+   */
+  rpc SubmitInferJob(SubmitInferJobRequest) returns (SubmitInferJobResponse);
+
+  /*
+   * description: get pod log
+   * errors: 
+   * - pod not found
+   *   NOT_FOUND, POD_NOT_FOUND, {}
+   */
+  rpc GetPodLogs(GetPodLogsRequest) returns (stream GetPodLogsResponse);
+
+  /*
+   * description: get pod monitor info
+   * errors: 
+   * - pod not found
+   *   NOT_FOUND, POD_NOT_FOUND, {}
+   */
+  rpc GetPodMonitorInfo(GetPodMonitorInfoRequest) returns (GetPodMonitorInfoResponse);
+
+  rpc CreateDevHost(CreateDevHostRequest) returns (CreateDevHostResponse);
 }
