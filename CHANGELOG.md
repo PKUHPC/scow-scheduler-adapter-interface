@@ -1,5 +1,20 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.13.0
+
+### Minor Changes
+
+- e71d16e: 在 AI 中增加获取支持的可选功能的接口, 增加封锁解封账户分区的相关接口
+  在 AI 中优化 QueryAccountBlockStatus 接口返回信息
+- e71d16e: 增加 AI 仪表盘获取集群数据汇总的接口 GetSummaryClusterInfo
+- e71d16e: 增加 AI 下的同步账户用户数据接口 SyncAccountUserInfo
+
+### Patch Changes
+
+- e71d16e: 在 PodStatus 中增加新的容器状态 TIMEOUT 及 CONTAINER_CREATING
+- e71d16e: 在 PodInfo 中增加 pod_reason，解释容器在当前状态下的原因
+- e71d16e: JobInfo 新增 node,container_id,pod,namespace 参数
+
 ## 1.12.0
 
 ### Minor Changes
