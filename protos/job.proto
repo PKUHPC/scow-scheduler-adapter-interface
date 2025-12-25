@@ -418,7 +418,7 @@ message CreateDevHostRequest {
   string image = 15;
   // 镜像私仓的用户名和密码
   optional PrivateImageRepositoryCredentials private_image_repository_credentials = 16;
-
+}
 message CreateDevHostResponse {
   uint32 job_id = 1;
 }
