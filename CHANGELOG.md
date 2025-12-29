@@ -1,5 +1,11 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.14.0
+
+### Minor Changes
+
+- 020aab8: 新增 RunCommandOnJobNodes 接口用于在作业所在节点执行命令
+
 ## 1.13.0
 
 ### Minor Changes
