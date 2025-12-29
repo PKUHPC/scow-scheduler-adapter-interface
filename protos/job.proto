@@ -340,6 +340,18 @@ message SubmitScriptAsJobResponse {
   uint32 job_id = 1;
 }
 
+message RunCommandOnJobNodesRequest {
+  uint32 job_id = 1;
+  string command = 2;
+  uint32 timeout_seconds = 3;
+  repeated string nodes = 4;
+}
+
+message RunCommandOnJobNodesResponse {
+  string stdout = 1;
+  string stderr = 2;
+}
+
 // pod日志信息
 message GetPodLogsResponse {
   string log = 1; // 日志内容
@@ -476,6 +488,13 @@ service JobService {
    */
   rpc SubmitScriptAsJob(SubmitScriptAsJobRequest) returns (SubmitScriptAsJobResponse);
 
+  /*
+   * description: run a command on job nodes
+   * errors: 
+   * - job not found
+   *   NOT_FOUND, JOB_NOT_FOUND, {}
+   */
+  rpc RunCommandOnJobNodes(RunCommandOnJobNodesRequest) returns (RunCommandOnJobNodesResponse);
    /*
    * description: submit infer job 
    * errors: 
