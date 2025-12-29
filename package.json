@@ -1,6 +1,6 @@
 {
   "name": "@scow/scow-scheduler-adapter-interface",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "description": "Interface for SCOW to call schedulers",
   "author": "PKUHPC (https://github.com/PKUHPC)",
   "repository": "https://github.com/PKUHPC/SCOW",
@@ -13,7 +13,7 @@
   "devDependencies": {
     "@changesets/cli": "2.26.2",
     "front-matter": "4.0.2",
-    "@bufbuild/buf": "1.27.2"
+    "@bufbuild/buf": "1.61.0"
   },
   "keywords": [],
   "packageManager": "pnpm@8.9.0",

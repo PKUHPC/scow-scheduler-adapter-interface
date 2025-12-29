@@ -97,6 +97,16 @@ message DeleteAccountRequest {
 message DeleteAccountResponse {
 }
 
+message SyncAccountUserInfoRequest {
+  // session id during one same data sync operation
+  // the scheduler can only process the same data once with the same session_id.
+  string session_id = 1;
+  repeated SyncAccountInfo sync_accounts = 2;
+  // maximum execution time for this request in milliseconds
+  optional uint32 timeout_milliseconds = 3;
+}
+
+
 
 
 // ************ Below is the interfaces for optional feature: RESOURCE_MANAGEMENT ***************
@@ -183,15 +193,6 @@ message SyncAccountInfo {
   }
 
   optional bool deleted = 8;
-}
-
-message SyncAccountUserInfoRequest {
-  // session id during one same data sync operation
-  // the scheduler can only process the same data once with the same session_id.
-  string session_id = 1;
-  repeated SyncAccountInfo sync_accounts = 2;
-  // maximum execution time for this request in milliseconds
-  optional uint32 timeout_milliseconds = 3;
 }
 
 message SyncAccountUserInfoResponse {
@@ -311,19 +312,19 @@ service AccountService {
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
    */
   rpc QueryAccountBlockStatus(QueryAccountBlockStatusRequest) returns (QueryAccountBlockStatusResponse);
-  
+
   /*
    * description: delete account
    * errors:
    * - account not exist
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
    */
-   rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse);
+  rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse);
 
 
-   // ********** Below is the rpcs for optional feature: RESOURCE_MANAGEMENT ***************
+  // ********** Below is the rpcs for optional feature: RESOURCE_MANAGEMENT ***************
   /*  
-   * FOR OPTIOANL FEATURE: RESOURCE_MANAGEMENT
+   * FOR OPTIONAL FEATURE: RESOURCE_MANAGEMENT
    * description: block an account with specified partitions
    * errors: 
    * - account not exist
@@ -333,7 +334,9 @@ service AccountService {
    */
    rpc BlockAccountWithPartitions(BlockAccountWithPartitionsRequest) returns (BlockAccountWithPartitionsResponse);
   /*
-   * FOR OPTIOANL FEATURE: RESOURCE_MANAGEMENT
+
+   * FOR OPTIONAL FEATURE: RESOURCE_MANAGEMENT
+
    * description: unblock an account with specified partitions
    * errors: 
    * - account not exist
@@ -342,16 +345,18 @@ service AccountService {
    * - account already unblocked, don't throw error
    */
    rpc UnblockAccountWithPartitions(UnblockAccountWithPartitionsRequest) returns (UnblockAccountWithPartitionsResponse);
+ 
   /*
-   * FOR OPTIOANL FEATURE: RESOURCE_MANAGEMENT
+   * FOR OPTIONAL FEATURE: RESOURCE_MANAGEMENT
    * description: query if an account is blocked with specified partitions
    * errors: 
    * - account not exist
    *   NOT_FOUND, ACCOUNT_NOT_FOUND, {}
    */
    rpc QueryAccountBlockStatusWithPartitions(QueryAccountBlockStatusWithPartitionsRequest) returns (QueryAccountBlockStatusWithPartitionsResponse);
+   
   /*
-   * FOR OPTIOANL FEATURE: RESOURCE_MANAGEMENT
+   * FOR OPTIONAL FEATURE: RESOURCE_MANAGEMENT
    * description: get all accounts with blocked partitions' detail and all associated users 
    * special case:
    * - account no users, exclude this account
@@ -362,7 +367,7 @@ service AccountService {
   /*
    * description: sync accounts and related users
    * special case:
-   * - If processing time exceeds timeout_seconds specified in the request:
+   * - If processing time exceeds timeout_milliseconds specified in the request:
    * the operation will be terminated
    * only data processed before timeout will be returned
    * the completely_executed field in the response will be set to false
