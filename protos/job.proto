@@ -436,58 +436,57 @@ message CreateDevHostResponse {
   uint32 job_id = 1;
 }
 
-message StreamShellRequest {
-  string job_id = 1;            // 作业ID
-  string namespace = 2;         // Pod命名空间
-  string pod_name = 3;          // Pod名称
-  string container_name = 4;    // 容器名称
+message StreamJobShellRequest {
+
+  message Connect {
+    string job_id = 1;            // 作业ID
+    string namespace = 2;         // Pod命名空间
+    string pod_name = 3;          // Pod名称
+    string container_name = 4;    // 容器名称
+  }
+
+  // 数据输入
+  message DataInput {
+    string data = 1;
+  }
+
+  // 终端大小调整
+  message ResizeInput {
+    int32 cols = 1;
+    int32 rows = 2;
+  }
+
+  // 主动断开
+  message DisconnectInput {
+  }
 
   // 交互类型
   oneof payload {
-    DataInput data = 5;         // 输入数据（如命令行字符）
-    ResizeInput resize = 6;     // 终端大小调整
-    DisconnectInput disconnect = 7; // 主动断开
+    Connect connect = 1;
+    DataInput data = 2;         // 输入数据（如命令行字符）
+    ResizeInput resize = 3;     // 终端大小调整
+    DisconnectInput disconnect = 4; // 主动断开
   }
-}
-
-// 数据输入
-message DataInput {
-  string data = 1;
-}
-
-// 终端大小调整
-message ResizeInput {
-  int32 cols = 1;
-  int32 rows = 2;
-}
-
-// 主动断开
-message DisconnectInput {
 }
 
 // 服务端返回的消息
-message StreamShellResponse {
+message StreamJobShellResponse {
+
+  // 输出数据
+  message DataOutput {
+    bytes data = 1;
+  }
+
+  // 退出信息
+  message ExitOutput {
+    int32 code = 1;
+    string signal = 2;
+  }
+
   oneof payload {
     DataOutput data = 1;        // 输出数据（stdout/stderr）
     ExitOutput exit = 2;        // 退出信息
-    ErrorOutput error = 3;      // 错误信息
   }
-}
-
-// 输出数据
-message DataOutput {
-  string data = 1;
-}
-
-// 退出信息
-message ExitOutput {
-  int32 code = 1;
-  string signal = 2;
-}
-
-// 错误信息
-message ErrorOutput {
-  string message = 1;
 }
 
 service JobService {
@@ -601,5 +600,5 @@ service JobService {
   /*
     * description: job shell
     */
-  rpc StreamJobShell (stream StreamShellRequest) returns (stream StreamShellResponse);
+  rpc StreamJobShell (stream StreamJobShellRequest) returns (stream StreamJobShellResponse);
 }
