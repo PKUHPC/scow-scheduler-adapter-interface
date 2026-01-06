@@ -14,6 +14,8 @@ syntax = "proto3";
 
 package scow.scheduler_adapter;
 
+import "google/protobuf/timestamp.proto";
+
 message GetVersionRequest {}
 
 message GetVersionResponse {
@@ -22,9 +24,20 @@ message GetVersionResponse {
   uint32 patch = 3;
 }
 
+message GetAdapterInfoRequest {}
+
+message GetAdapterInfoResponse {
+  google.protobuf.Timestamp start_time = 1;
+  google.protobuf.Timestamp valid_until = 2;
+  string scheduler_type = 3;
+  string scheduler_version = 4;
+}
+
 service VersionService {
   /*
     Get the version currently implemented by the server.
   */
   rpc GetVersion(GetVersionRequest) returns (GetVersionResponse);
+
+  rpc GetAdapterInfo(GetAdapterInfoRequest) returns (GetAdapterInfoResponse);
 }
