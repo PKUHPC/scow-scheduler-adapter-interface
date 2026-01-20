@@ -1,5 +1,11 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.15.0
+
+### Minor Changes
+
+- a938318: 增加 ai 作业镜像私仓的用户名和密码和挂载点指定目标位置
+
 ## 1.14.0
 
 ### Minor Changes
