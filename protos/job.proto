@@ -474,7 +474,7 @@ message StreamJobShellResponse {
 
   // 输出数据
   message DataOutput {
-    string data = 1;
+    bytes data = 1;
   }
 
   // 退出信息
