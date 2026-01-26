@@ -1,5 +1,11 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.16.0
+
+### Minor Changes
+
+- 04a9fa1: 增加 ai 进入容器接口 StreamJobShell
+
 ## 1.15.0
 
 ### Minor Changes
