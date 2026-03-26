@@ -1,5 +1,11 @@
 # @scow/scow-scheduler-adapter-interface
 
+## 1.17.0
+
+### Minor Changes
+
+- ba45f3e: 分区信息中增加分区描述
+
 ## 1.16.0
 
 ### Minor Changes
