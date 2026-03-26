@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "buf lint",
     "ci:version": "node scripts/version.mjs",
-    "ci:publish": "pnpm publish -r"
+    "ci:publish": "pnpm publish -r --access public"
   },
   "publishConfig": {
     "access": "public"
