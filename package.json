@@ -10,6 +10,9 @@
     "ci:version": "node scripts/version.mjs",
     "ci:publish": "pnpm publish -r"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@changesets/cli": "2.26.2",
     "front-matter": "4.0.2",
