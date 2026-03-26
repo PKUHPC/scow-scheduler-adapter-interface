@@ -50,6 +50,8 @@ message Partition {
   optional uint32 max_accelerators_per_pod = 12;
   // cpu_model: 具体的 cpu 型号，如 "Intel(R) Xeon(R) Platinum 81633090" 等
   optional string cpu_model = 13;
+  // description: 配置的分区描述
+  optional string description = 14;
 }
 
 message GetClusterConfigResponse {
