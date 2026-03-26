@@ -3,7 +3,7 @@
   "version": "1.17.0",
   "description": "Interface for SCOW to call schedulers",
   "author": "PKUHPC (https://github.com/PKUHPC)",
-  "repository": "https://github.com/PKUHPC/SCOW",
+  "repository": "https://github.com/PKUHPC/scow-scheduler-adapter-interface",
   "main": "index.js",
   "scripts": {
     "lint": "buf lint",
