@@ -430,6 +430,8 @@ message CreateDevHostRequest {
   string image = 15;
   // 镜像私仓的用户名和密码
   optional PrivateImageRepositoryCredentials private_image_repository_credentials = 16;
+  // AI作业环境变量
+  repeated EnvVariable env_variables = 17;  
 }
 
 message CreateDevHostResponse {
