@@ -241,6 +241,27 @@ message PrivateImageRepositoryCredentials {
   string password = 2;
 }
 
+// 定义 CSI 的挂载策略
+enum UserIdmapMode {
+  // NotSet
+  MODE_NOT_SET = 0;
+  // 无 idmap 模式，作为回退， 无需修改 uid,gid
+  MODE_PLAIN = 1;
+  // Linux kernel idmap 模式, 只需 uid   
+  MODE_IDMAP = 2;
+  // bindfs 模式  
+  MODE_BINDFS = 3;
+}
+
+// 用户 ID 映射信息，包含当前 CSI 的挂载策略
+message UserIdmapInfo {
+  // 指定使用的模式
+  UserIdmapMode mode = 1; 
+  optional uint32 uid = 2;         
+  optional uint32 gid = 3;         
+}
+
+
 message SubmitJobRequest {
   string user_id = 1;
   string job_name = 2;
@@ -284,6 +305,8 @@ message SubmitJobRequest {
   optional string tensor_board_data_path = 19;
   // 镜像私仓的用户名和密码
   optional PrivateImageRepositoryCredentials private_image_repository_credentials = 20;
+  // 用户 ID 映射信息，包含当前 CSI 的挂载策略
+  optional UserIdmapInfo user_idmap_info = 21;
 }
 
 message SubmitJobResponse {
@@ -323,6 +346,8 @@ message SubmitInferJobRequest {
   repeated EnvVariable env_variables = 18;  
   // 镜像私仓的用户名和密码
   optional PrivateImageRepositoryCredentials private_image_repository_credentials = 19;
+  // 用户 ID 映射信息，包含当前 CSI 的挂载策略
+  optional UserIdmapInfo user_idmap_info = 20;
 }
 
 message SubmitInferJobResponse {
@@ -430,6 +455,8 @@ message CreateDevHostRequest {
   string image = 15;
   // 镜像私仓的用户名和密码
   optional PrivateImageRepositoryCredentials private_image_repository_credentials = 16;
+  // 用户 ID 映射信息，包含当前 CSI 的挂载策略
+  optional UserIdmapInfo user_idmap_info = 17;
 }
 
 message CreateDevHostResponse {
